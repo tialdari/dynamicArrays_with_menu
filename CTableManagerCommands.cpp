@@ -12,76 +12,50 @@
 using namespace std;
 
 
-  ChangeSize::ChangeSize(){
-    if(DEBUG) cout << "new ChangeSize command";
-  }
-
-  ChangeSize::ChangeSize(CTableManager &cTableManager){ //pasamos por valor!!!
-    if(DEBUG) cout << "new ChangeSize command with a cTableManager";
-    this -> cTableManager = cTableManager;
-  }
-
-  ChangeSize::~ChangeSize(){
-    if(DEBUG) cout << "deleting ChangeSize command";
-  }
-
-  bool ChangeSize::runCommand(){
-
-    if(DEBUG) cout << "running ChangeSize command";
-
-    cout << "Give the index of the array which size you want to change: "
-         << endl;
-    int arrIndx = io.getInt();
-
-    cout << "give a new size: " << endl;
-    int newSize = io.getInt();
-
-    cTableManager.setArrSize(arrIndx, newSize);
-    return true;
-  }
-
-
-
   CreateArrays::CreateArrays(){
-    if(DEBUG) cout << "new CreateArrays command";
+    if(DEBUG) cout << "new CreateArrays command" << endl;
   }
 
   CreateArrays::~CreateArrays(){
-    if(DEBUG) cout << "deleting CreateArrays command";
+    if(DEBUG) cout << "deleting CreateArrays command" << endl;
   }
 
-  CreateArrays::CreateArrays(CTableManager &cTableManager){
-    if(DEBUG) cout << "new CreateArrays command with a cTableManager";
+  CreateArrays::CreateArrays(CTableManager *cTableManager){
+    if(DEBUG) cout << "new CreateArrays command with a cTableManager" << endl;
     this -> cTableManager = cTableManager;
   }
 
   bool CreateArrays::runCommand(){
 
-    if(DEBUG) cout << "running CreateArrays command";
-    cout << "Give a number of arrays to create: ";
+    if(DEBUG) cout << "running CreateArrays command" << endl;
+    cout << "Give a number of arrays to create: " << endl;
     int arrNum = io.getInt();
-    cTableManager.createArrays(arrNum);
+    cTableManager -> createArrays(arrNum);
     return true;
+  }
+
+  void CreateArrays::description(){
+    cout << "Creates given number of new array" << endl;
   }
 
 
 
   SetArrValue::SetArrValue(){
-    if(DEBUG) cout << "new SetArrValue command";
+    if(DEBUG) cout << "new SetArrValue command" << endl;
   }
 
   SetArrValue::~SetArrValue(){
-    if(DEBUG) cout << "deleting SetArrValue command";
+    if(DEBUG) cout << "deleting SetArrValue command" << endl;
   }
 
-  SetArrValue::SetArrValue(CTableManager &cTableManager){
-    if(DEBUG) cout << "new SetArrValue command with a cTableManager";
+  SetArrValue::SetArrValue(CTableManager *cTableManager){
+    if(DEBUG) cout << "new SetArrValue command with a cTableManager" << endl;
     this -> cTableManager = cTableManager;
   }
 
   bool SetArrValue::runCommand(){
 
-    if(DEBUG) cout << "running SetArrValue command";
+    if(DEBUG) cout << "running SetArrValue command" << endl;
     int arrIndx;
     int innerIndx;
     int newValue;
@@ -96,77 +70,91 @@ using namespace std;
     cout << "Give the value: " << endl;
     newValue = io.getInt();
 
-    cTableManager.setArrValue(arrIndx, innerIndx, newValue);
+    cTableManager -> setArrValue(arrIndx, innerIndx, newValue);
     return true;
 
   }
 
+  void SetArrValue::description(){
+    cout << "Changes value of the given cell ";
+    cout << "of the given array to the given value" << endl;
+  }
+
+
 
 
   DeleteArray::DeleteArray(){
-    if(DEBUG) cout << "new DeleteArray command";
+    if(DEBUG) cout << "new DeleteArray command" << endl;
   }
 
   DeleteArray::~DeleteArray(){
-    if(DEBUG) cout << "deleting DeleteArray command";
+    if(DEBUG) cout << "deleting DeleteArray command" << endl;
   }
 
-  DeleteArray::DeleteArray(CTableManager &cTableManager){
-    if(DEBUG) cout << "new DeleteArray command with a cTableManager";
+  DeleteArray::DeleteArray(CTableManager *cTableManager){
+    if(DEBUG) cout << "new DeleteArray command with a cTableManager" << endl;
     this -> cTableManager = cTableManager;
   }
 
   bool DeleteArray::runCommand(){
 
-    if(DEBUG) cout << "running DeleteArray command";
-    cout << "Give the index of the array which you want to delete: " << endl;
+    if(DEBUG) cout << "running DeleteArray command" << endl;
+    cout << "Give the index of the array which you want to delete: ";
     int arrIndx = io.getInt();
-    cTableManager.deleteArray(arrIndx);
-    cout << "The array from the " << arrIndx << "index was deleted " << endl;
+    cTableManager -> deleteArray(arrIndx);
+    cout << "The array from the " << arrIndx << " index has been deleted " << endl;
     return true;
+  }
+
+  void DeleteArray::description(){
+    cout << "Deletes the chosen array" << endl;
   }
 
 
 
   DeleteAllArrays::DeleteAllArrays(){
-    if(DEBUG) cout << "new DeleteAllArrays command";
+    if(DEBUG) cout << "new DeleteAllArrays command" << endl;
   }
 
   DeleteAllArrays::~DeleteAllArrays(){
-    if(DEBUG) cout << "deleting DeleteAllArrays command";
+    if(DEBUG) cout << "deleting DeleteAllArrays command" << endl;
   }
 
-  DeleteAllArrays::DeleteAllArrays(CTableManager &cTableManager){
-    if(DEBUG) cout << "new DeleteAllArrays command with a cTableManager";
-    this -> cTableManager = cTableManager;
+  DeleteAllArrays::DeleteAllArrays(CTableManager *cTableManager){
+    if(DEBUG) cout << "new DeleteAllArrays command with a cTableManager" << endl;
   }
 
   bool DeleteAllArrays::runCommand(){
 
-    if(DEBUG) cout << "running DeleteAllArrays command";
-    cTableManager.deleteAllArrays();
+    if(DEBUG) cout << "running DeleteAllArrays command" << endl;
+    cTableManager -> deleteAllArrays();
     cout << "All arrays have been deleted " << endl;
     return true;
   }
 
+  void DeleteAllArrays::description(){
+    cout << "Deletes all arrays" << endl;
+  }
+
+
 
 
   SetArrName::SetArrName(){
-    if(DEBUG) cout << "new SetArrName command";
+    if(DEBUG) cout << "new SetArrName command" << endl;
   }
 
   SetArrName::~SetArrName(){
-    if(DEBUG) cout << "deleting SetArrName command";
+    if(DEBUG) cout << "deleting SetArrName command" << endl;
   }
 
-  SetArrName::SetArrName(CTableManager &cTableManager){
-    if(DEBUG) cout << "new SetArrName command with a cTableManager";
+  SetArrName::SetArrName(CTableManager *cTableManager){
+    if(DEBUG) cout << "new SetArrName command with a cTableManager" << endl;
     this -> cTableManager = cTableManager;
   }
 
   bool SetArrName::runCommand(){
 
-    if(DEBUG) cout << "running SetArrName command";
+    if(DEBUG) cout << "running SetArrName command" << endl;
 
     cout << "Give the index of the array which you want to rename: " << endl;
     int arrIndx = io.getInt();
@@ -174,81 +162,95 @@ using namespace std;
     cout << "Give a name: " << endl;
     string newName = io.getString();
 
-    cTableManager.setArrName(arrIndx, newName);
+    cTableManager -> setArrName(arrIndx, newName);
     return true;
+  }
+
+  void SetArrName::description(){
+    cout << "Sets the current name of a given array to the given name" << endl;
   }
 
 
 
   GetArrInfo::GetArrInfo(){
-      if(DEBUG) cout << "new GetArrInfo command";
+      if(DEBUG) cout << "new GetArrInfo command" << endl;
     }
 
   GetArrInfo::~GetArrInfo(){
-      if(DEBUG) cout << "deleting GetArrInfo command";
+      if(DEBUG) cout << "deleting GetArrInfo command" << endl;
     }
 
-  GetArrInfo::GetArrInfo(CTableManager &cTableManager){
-      if(DEBUG) cout << "new GetArrInfo command with a cTableManager";
+  GetArrInfo::GetArrInfo(CTableManager *cTableManager){
+      if(DEBUG) cout << "new GetArrInfo command with a cTableManager" << endl;
       this -> cTableManager = cTableManager;
     }
 
   bool GetArrInfo::runCommand(){
 
-      if(DEBUG) cout << "running GetArrInfo command";
+      if(DEBUG) cout << "running GetArrInfo command" << endl;
 
       cout << "Give the index of the array which info you want: " << endl;
       int arrIndx = io.getInt();
-      cTableManager.getArrInfo(arrIndx);
+      cTableManager -> getArrInfo(arrIndx);
       return true;
     }
+
+  void GetArrInfo::description(){
+      cout << "Given the parameters of the array of a given index" << endl;
+  }
+
 
 
 
   GetArrSize::GetArrSize(){
-    if(DEBUG) cout << "new GetArrSize command";
+    if(DEBUG) cout << "new GetArrSize command" << endl;
   }
 
   GetArrSize::~GetArrSize(){
-    if(DEBUG) cout << "deleting GetArrSize command";
+    if(DEBUG) cout << "deleting GetArrSize command"<< endl;
   }
 
-  GetArrSize::GetArrSize(CTableManager &cTableManager){
-    if(DEBUG) cout << "new GetArrSize command with a cTableManager";
+  GetArrSize::GetArrSize(CTableManager *cTableManager){
+    if(DEBUG) cout << "new GetArrSize command with a cTableManager" << endl;
     this -> cTableManager = cTableManager;
   }
 
   bool GetArrSize::runCommand(){
 
-    if(DEBUG) cout << "running GetArrSize command";
+    if(DEBUG) cout << "running GetArrSize command" << endl;
 
     cout << "Give the index of the array which size you want to know: " << endl;
     int arrIndx = io.getInt();
     cout << "The size of the array from the " << arrIndx << "index is "
-         << cTableManager.getArrSize(arrIndx);
+         << cTableManager -> getArrSize(arrIndx);
     return true;
 
   }
+
+  void GetArrSize::description(){
+    cout << "Gives the size of the array of the given index" << endl;
+  }
+
 
 
 
 
   SetArrSize::SetArrSize(){
-    if(DEBUG) cout << "new SetArrSize command";
+    if(DEBUG) cout << "new SetArrSize command" << endl;
   }
 
   SetArrSize::~SetArrSize(){
-    if(DEBUG) cout << "deleting SetArrSize command";
+    if(DEBUG) cout << "deleting SetArrSize command" << endl;
   }
 
-  SetArrSize::SetArrSize(CTableManager &cTableManager){
-    if(DEBUG) cout << "new SetArrSize command with a cTableManager";
+  SetArrSize::SetArrSize(CTableManager *cTableManager){
+    if(DEBUG) cout << "new SetArrSize command with a cTableManager" << endl;
     this -> cTableManager = cTableManager;
   }
 
   bool SetArrSize::runCommand(){
 
-    if(DEBUG) cout << "running SetArrSize command";
+    if(DEBUG) cout << "running SetArrSize command" << endl;
 
     cout << "Give the index of the array which size you want to change: "
          << endl;
@@ -257,32 +259,43 @@ using namespace std;
     cout << "give a new size: " << endl;
     int newSize = io.getInt();
 
-    cTableManager.setArrSize(arrIndx, newSize);
+    cTableManager -> setArrSize(arrIndx, newSize);
     return true;
 
   }
 
+  void SetArrSize::description(){
+    cout << "Changes the current size of the given array ";
+    cout << "to the given size" << endl;
+  }
+
+
 
   CloneArr::CloneArr(){
-    if(DEBUG) cout << "new CloneArr command";
+    if(DEBUG) cout << "new CloneArr command" << endl;
   }
 
   CloneArr::~CloneArr(){
-    if(DEBUG) cout << "deleting CloneArr command";
+    if(DEBUG) cout << "deleting CloneArr command" << endl;
   }
 
-  CloneArr::CloneArr(CTableManager &cTableManager){
-    if(DEBUG) cout << "new CloneArr command with a cTableManager";
+  CloneArr::CloneArr(CTableManager *cTableManager){
+    if(DEBUG) cout << "new CloneArr command with a cTableManager" << endl;
     this -> cTableManager = cTableManager;
   }
 
   bool CloneArr::runCommand(){
 
-    if(DEBUG) cout << "running CloneArr command";
+    if(DEBUG) cout << "running CloneArr command" << endl;
 
     cout << "Give the index of the array which you want to clone: " << endl;
     int arrIndx = io.getInt();
-    cTableManager.cloneArr(arrIndx);
+    cTableManager -> cloneArr(arrIndx);
 
     return true;
+  }
+
+  void CloneArr::description(){
+    cout << "Clones the chosen array ";
+    cout << "and adds it at the end of the storage" << endl;
   }

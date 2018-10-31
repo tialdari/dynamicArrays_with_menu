@@ -10,8 +10,10 @@ class Command{
   public:
     Command();
     virtual bool runCommand();
+    virtual void description(){cout << "default description";};
 
   private:
+
 
 };
 

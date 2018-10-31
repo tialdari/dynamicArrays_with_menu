@@ -21,26 +21,27 @@ using namespace std;
 int main()
 {
 
-  CTableManager cTableManager;
 
-  Menu* menu = new Menu("main menu", "main_menu");
-  Menu* menu_1 = new Menu("Array Managment", "a_managment");
+  CTableManager* cTableManager = new CTableManager();
+
+  Menu* menu = new Menu("main menu", "main_menu", NULL);
+  Menu* menu_1 = new Menu("Array Managment", "a_management", menu);
 
   menu -> addNewCommand(menu_1);
 
-  MenuObject* createArrays = new MenuCommand("createArrays", "create_a", new ChangeSize(cTableManager));
-  
-  MenuObject* setArrName = new MenuCommand("setArrName", "set_arr_n", new ChangeSize(cTableManager));
-  MenuObject* setArrSize = new MenuCommand("setArrSize", "set_a_s", new ChangeSize(cTableManager));
-  MenuObject* setArrValue = new MenuCommand("setArrValue", "set_arr_v", new ChangeSize(cTableManager));
+  MenuObject* createArrays = new MenuCommand("createArrays", "create_a", new CreateArrays(cTableManager), menu_1);
 
-  MenuObject* getArrInfo = new MenuCommand("getArrInfo", "get_arr_i", new ChangeSize(cTableManager));
-  MenuObject* getArrSize = new MenuCommand("getArrSize", "get_arr_s", new ChangeSize(cTableManager));
+  MenuObject* setArrName = new MenuCommand("setArrName", "set_arr_n", new SetArrName(cTableManager), menu_1);
+  MenuObject* setArrSize = new MenuCommand("setArrSize", "set_a_s", new SetArrSize(cTableManager), menu_1);
+  MenuObject* setArrValue = new MenuCommand("setArrValue", "set_arr_v", new SetArrValue(cTableManager), menu_1);
 
-  MenuObject* cloneArr = new MenuCommand("cloneArr", "clone_a", new ChangeSize(cTableManager));
+  MenuObject* getArrInfo = new MenuCommand("getArrInfo", "get_arr_i", new GetArrInfo(cTableManager), menu_1);
+  MenuObject* getArrSize = new MenuCommand("getArrSize", "get_arr_s", new GetArrSize(cTableManager), menu_1);
 
-  MenuObject* deleteArray = new MenuCommand("deleteArray", "delete_a", new ChangeSize(cTableManager));
-  MenuObject* deleteAllArrays = new MenuCommand("deleteAllArrays", "delete_all_a", new ChangeSize(cTableManager));
+  MenuObject* cloneArr = new MenuCommand("cloneArr", "clone_a", new CloneArr(cTableManager), menu_1);
+
+  MenuObject* deleteArray = new MenuCommand("deleteArray", "delete_a", new DeleteArray(cTableManager), menu_1);
+  MenuObject* deleteAllArrays = new MenuCommand("deleteAllArrays", "delete_all_a", new DeleteAllArrays(cTableManager), menu_1);
 
 
   menu_1 -> addNewCommand(createArrays);
@@ -57,7 +58,16 @@ int main()
   menu_1 -> addNewCommand(deleteArray);
   menu_1 -> addNewCommand(deleteAllArrays);
 
+
+
   menu -> run();
+
+
+  delete cTableManager;
+  delete menu;
+
+
+  cout << "end of programme";
 
 
   return 0;

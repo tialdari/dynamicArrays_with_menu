@@ -15,7 +15,8 @@ using namespace std;
 
 MenuCommand::~MenuCommand()
 {
-
+  if(DEBUG) cout << "deleting menu's command" << endl;
+  delete pCommand;
 }
 
 void MenuCommand::run()

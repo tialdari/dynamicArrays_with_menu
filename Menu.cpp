@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include "MenuObject.h"
 #include "Menu.h"
 #include "MenuCommand.h"
@@ -9,8 +10,34 @@ using namespace std;
 
 Menu::~Menu()
 {
-  if(DEBUG) cout << "deleting menu" << endl;
-  vector<MenuObject*>().swap(vMenuObjects);
+  cout << "deleting " << getName() << endl;
+  cout << "deleting " << getName() << "'s objects" << endl;
+
+  for(int i = 0; i < vMenuObjects.size(); i++)
+  {
+    cout << "deleting " << vMenuObjects[i] -> getName() << endl;
+    delete vMenuObjects[i];
+  }
+}
+
+/*
+string Menu::printSubmenu(MenuObject* menuObj)
+{
+
+  if(menuObj -> getSubMenu() == NULL) return menuObj -> getName() + " -> ";
+  else menuObj -> getSubMenu() -> printSubmenu() + menuObj -> getName();
+}
+
+
+Menu* Menu::getSubMenu()
+{
+  return subMenu;
+}
+*/
+
+void Menu::setSubmenu(Menu* subMenu)
+{
+  this -> subMenu = subMenu;
 }
 
 void Menu::addNewCommand(MenuObject* menuObj)
@@ -64,8 +91,16 @@ void Menu::run()
     cout << name << "(" << command << ")" << endl;
 
     menuItemsList();
-    commandIndex = getCommandIndex();
-    if(commandIndex == -1) return;
+    cout << "Type a command's name(press the enter key at the end): ";
+    string commandName = getCommandName();
+    if(commandName == "back") return;
+    if(commandName == "help"){
+      commandName = getCommandName();
+      commandIndex = getCommandIndex(commandName);
+      vMenuObjects[commandIndex] -> help();
+    }
+
+    commandIndex = getCommandIndex(commandName);
     executeCommand(commandIndex);
   }
 }
@@ -75,43 +110,45 @@ void Menu::menuItemsList()
   int lastPos;
   for(int i = 0; i < size; i++){
 
-    cout << " " << (i + 1) << ". " << vMenuObjects[i] -> getName()
-           << "(" << vMenuObjects[i] -> getCommand() << ")" << endl;
+    cout << " " << (i + 1) << ". ";
+    cout << vMenuObjects[i] -> getName()
+         << "(" << vMenuObjects[i] -> getCommand() << ")" << endl;
     lastPos = i + 2;
   }
+  cout << " " << lastPos << ". Help(help <command name>)" << endl;
   cout << " " << lastPos << ". Go back(back)" << endl;
 }
 
 string Menu::getCommandName(){
 
   string commandName;
-  cout << "Type a command's name(press the enter key at the end): ";
   cin >> commandName;
 
   return commandName;
 }
 
-int Menu::getCommandIndex()
+int Menu::getCommandIndex(string commandName)
 {
-  string commandName;
   bool ifContinue = true;
-  int commandNum = 0;
+  int commandNum;
 
   while(ifContinue)
   {
-    commandName = getCommandName();
-    if(commandName == "back") return -1;
+    for(int i = 0; i < size; i++){
 
-    for(int i = 0; i < 1; i++){
+      if (DEBUG) cout << "commandName: " << commandName
+                      << " vMenuObjects[i] -> getCommand(): "
+                      << vMenuObjects[i] -> getCommand() << endl;
 
       if(commandName == vMenuObjects[i] -> getCommand())
       {
+
         commandNum = i;
         return i;
         ifContinue = false;
       }
-      else cout << "No such command! " << endl;
     }
+     cout << "No such command! " << endl;
   }
   return 0;
 }

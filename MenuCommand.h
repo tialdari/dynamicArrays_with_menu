@@ -12,19 +12,23 @@ using namespace std;
 class MenuCommand: public MenuObject{
 
   public:
-    MenuCommand(string name, string command, Command* pCommand)
+    MenuCommand(string name, string command, Command* pCommand, Menu* subMenu)
     : MenuObject(name, command)
     {
       this -> pCommand = pCommand;
+      this -> subMenu = subMenu;
     };
     ~MenuCommand();
+
+  //  Menu* getSubMenu(){return subMenu;};
     void run();
+    void help(){pCommand -> description();};
 
 
   private:
     Command* pCommand;
+    Menu* subMenu;
 
 };
 
 #endif
-//    B(int a, int b) : A(a,b){}
