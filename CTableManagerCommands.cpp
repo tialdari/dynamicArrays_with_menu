@@ -167,7 +167,7 @@ using namespace std;
   }
 
   void SetArrName::description(){
-    cout << "Sets the current name of a given array to the given name" << endl;
+    cout << "Changes the current name of a given array to the given name" << endl;
   }
 
 

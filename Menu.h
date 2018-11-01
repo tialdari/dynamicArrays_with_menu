@@ -3,7 +3,7 @@
 
 using namespace std;
 
-#define DEBUG true
+#define DEBUG false
 
 class Menu: public MenuObject{
 
@@ -19,6 +19,8 @@ class Menu: public MenuObject{
     };
     ~Menu();
 
+    int getSize(){return size;};
+
     //string printSubmenu(MenuObject* menuObj);
   //  Menu* getSubMenu();
     void setSubmenu(Menu* subMenu);
@@ -32,7 +34,13 @@ class Menu: public MenuObject{
     string getCommandName();
     int getCommandIndex(string commandName);
     void executeCommand(int commandIndex);
-    void help(){cout << "no help :(";};
+    void help(){cout << "no help\n" << endl;};
+    void search(string commandName);
+    bool searchUp(string commandName);
+    bool searchHorizontal(string commandName);
+    bool searchDown(string commandName);
+
+
 
 
 

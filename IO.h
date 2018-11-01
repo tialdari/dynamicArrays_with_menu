@@ -1,11 +1,9 @@
 #ifndef IO_H
 #define IO_H
 
-#define DEBUG true
-
 using namespace std;
 
-#define DEBUG true
+#define DEBUG false
 
 class IO{
 

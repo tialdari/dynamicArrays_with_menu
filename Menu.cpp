@@ -86,7 +86,6 @@ void Menu::run()
   int commandIndex;
 
   while(true){
-    if(DEBUG) cout << "menu's run method is running" << endl;
 
     cout << name << "(" << command << ")" << endl;
 
@@ -94,14 +93,20 @@ void Menu::run()
     cout << "Type a command's name(press the enter key at the end): ";
     string commandName = getCommandName();
     if(commandName == "back") return;
-    if(commandName == "help"){
+    else if(commandName == "search"){
+      cout << "command name: ";
+      commandName = getCommandName();
+      search(commandName);
+    }
+    else if(commandName == "help"){
+      cout << "command name: ";
       commandName = getCommandName();
       commandIndex = getCommandIndex(commandName);
       vMenuObjects[commandIndex] -> help();
+    }else {
+      commandIndex = getCommandIndex(commandName);
+      executeCommand(commandIndex);
     }
-
-    commandIndex = getCommandIndex(commandName);
-    executeCommand(commandIndex);
   }
 }
 
@@ -115,7 +120,8 @@ void Menu::menuItemsList()
          << "(" << vMenuObjects[i] -> getCommand() << ")" << endl;
     lastPos = i + 2;
   }
-  cout << " " << lastPos << ". Help(help <command name>)" << endl;
+  cout << " " << lastPos << ". Search(search)" << endl;
+  cout << " " << lastPos << ". Help(help)" << endl;
   cout << " " << lastPos << ". Go back(back)" << endl;
 }
 
@@ -123,7 +129,6 @@ string Menu::getCommandName(){
 
   string commandName;
   cin >> commandName;
-
   return commandName;
 }
 
@@ -135,10 +140,6 @@ int Menu::getCommandIndex(string commandName)
   while(ifContinue)
   {
     for(int i = 0; i < size; i++){
-
-      if (DEBUG) cout << "commandName: " << commandName
-                      << " vMenuObjects[i] -> getCommand(): "
-                      << vMenuObjects[i] -> getCommand() << endl;
 
       if(commandName == vMenuObjects[i] -> getCommand())
       {
@@ -167,4 +168,43 @@ void Menu::executeCommand(int commandIndex)
 
   }else vMenuObjects[commandIndex] -> run();
 
+}
+
+void Menu::search(string commandName){
+
+   bool downSearch = searchDown(commandName);
+   bool upSearch = searchUp(commandName);
+
+   if(downSearch == false && upSearch == false){
+       cout << "no such command " << endl;
+    }
+}
+
+bool Menu::searchUp(string commandName){
+    if(subMenu != NULL){
+      if(subMenu -> searchDown(commandName) == true) return true;
+      else return subMenu -> searchUp(commandName);
+    }else return false;
+  }
+
+
+bool Menu::searchHorizontal(string commandName){
+  for(int i = 0; i < size; i++){
+
+    if(vMenuObjects[i] -> getCommand() == commandName){
+      vMenuObjects[i] -> printSubmenu();
+      if (DEBUG) cout << "command found!" << endl;
+      return true;
+    }
+  }return false;
+}
+
+bool Menu::searchDown(string commandName){
+  for(int i = 0; i < size; i++){
+    if(vMenuObjects[i] -> searchHorizontal(commandName) == true) return true;
+  }
+  for(int i = 0; i < size; i++){
+    if(vMenuObjects[i] -> searchDown(commandName) == true) return true;
+  }
+  return false;
 }

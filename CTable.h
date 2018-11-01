@@ -3,7 +3,7 @@
 
 using namespace std;
 
-#define DEBUG true
+#define DEBUG false
 #define INITIAL_SIZE 10
 #define INITIAL_NAME "new array"
 
