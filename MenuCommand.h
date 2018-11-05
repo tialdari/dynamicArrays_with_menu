@@ -12,22 +12,26 @@ using namespace std;
 class MenuCommand: public MenuObject{
 
   public:
-    MenuCommand(string name, string command, Command* pCommand, Menu* subMenu)
-    : MenuObject(name, command)
+    MenuCommand(string name, string command, MenuObject* subMenu, Command* pCommand)
+    : MenuObject(name, command, subMenu)
     {
-      this -> pCommand = pCommand;
       this -> subMenu = subMenu;
+      this -> pCommand = pCommand;
     };
     ~MenuCommand();
 
   //  Menu* getSubMenu(){return subMenu;};
     void run();
     void help(){pCommand -> description();};
-
+    void search(string commandName){cout << "search command for a MenuCommand";};
+    bool searchUp(string commandName){cout << "searchUp command for a MenuCommand"; return false;};
+    bool searchHorizontal(string commandName){cout << "searchHorizontal command for a MenuCommand"; return false;};
+    bool searchDown(string commandName){cout << "searchDown command for a MenuCommand";return false;};
+    MenuObject* getSubMenu(){return subMenu;};
 
   private:
     Command* pCommand;
-    Menu* subMenu;
+    MenuObject* subMenu;
 
 };
 

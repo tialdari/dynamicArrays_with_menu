@@ -29,19 +29,19 @@ int main()
 
   menu -> addNewCommand(menu_1);
 
-  MenuObject* createArrays = new MenuCommand("createArrays", "create_a", new CreateArrays(cTableManager), menu_1);
+  MenuObject* createArrays = new MenuCommand("createArrays", "create_a", menu_1, new CreateArrays(cTableManager));
 
-  MenuObject* setArrName = new MenuCommand("setArrName", "set_arr_n", new SetArrName(cTableManager), menu_1);
-  MenuObject* setArrSize = new MenuCommand("setArrSize", "set_a_s", new SetArrSize(cTableManager), menu_1);
-  MenuObject* setArrValue = new MenuCommand("setArrValue", "set_arr_v", new SetArrValue(cTableManager), menu_1);
+  MenuObject* setArrName = new MenuCommand("setArrName", "set_arr_n", menu_1, new SetArrName(cTableManager));
+  MenuObject* setArrSize = new MenuCommand("setArrSize", "set_a_s", menu_1, new SetArrSize(cTableManager));
+  MenuObject* setArrValue = new MenuCommand("setArrValue", "set_arr_v", menu_1, new SetArrValue(cTableManager));
 
-  MenuObject* getArrInfo = new MenuCommand("getArrInfo", "get_arr_i", new GetArrInfo(cTableManager), menu_1);
-  MenuObject* getArrSize = new MenuCommand("getArrSize", "get_arr_s", new GetArrSize(cTableManager), menu_1);
+  MenuObject* getArrInfo = new MenuCommand("getArrInfo", "get_arr_i", menu_1, new GetArrInfo(cTableManager));
+  MenuObject* getArrSize = new MenuCommand("getArrSize", "get_arr_s", menu_1, new GetArrSize(cTableManager));
 
-  MenuObject* cloneArr = new MenuCommand("cloneArr", "clone_a", new CloneArr(cTableManager), menu_1);
+  MenuObject* cloneArr = new MenuCommand("cloneArr", "clone_a", menu_1, new CloneArr(cTableManager));
 
-  MenuObject* deleteArray = new MenuCommand("deleteArray", "delete_a", new DeleteArray(cTableManager), menu_1);
-  MenuObject* deleteAllArrays = new MenuCommand("deleteAllArrays", "delete_all_a", new DeleteAllArrays(cTableManager), menu_1);
+  MenuObject* deleteArray = new MenuCommand("deleteArray", "delete_a", menu_1, new DeleteArray(cTableManager));
+  MenuObject* deleteAllArrays = new MenuCommand("deleteAllArrays", "delete_all_a", menu_1, new DeleteAllArrays(cTableManager));
 
 
   menu_1 -> addNewCommand(createArrays);

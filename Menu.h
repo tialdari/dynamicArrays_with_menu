@@ -1,14 +1,16 @@
 #ifndef MENU_H
 #define MENU_H
 
+
 using namespace std;
 
 #define DEBUG false
 
+#include "MenuObject.h"
 class Menu: public MenuObject{
 
   public:
-    Menu(string name, string command, Menu* subMenu): MenuObject(name, command)
+    Menu(string name, string command, MenuObject* subMenu): MenuObject(name, command, subMenu)
     {
       size = vMenuObjects.size();
       this -> subMenu = subMenu;
@@ -21,8 +23,7 @@ class Menu: public MenuObject{
 
     int getSize(){return size;};
 
-    //string printSubmenu(MenuObject* menuObj);
-  //  Menu* getSubMenu();
+    MenuObject* getSubMenu();
     void setSubmenu(Menu* subMenu);
 
     void setpMenuObjListVal(int index, MenuObject* menuObj);
@@ -41,15 +42,12 @@ class Menu: public MenuObject{
     bool searchDown(string commandName);
 
 
-
-
-
-
   private:
     int size;
     int objectsNum;
-    Menu* subMenu;
+    MenuObject* subMenu;
     vector<MenuObject*> vMenuObjects;
+
 
 };
 

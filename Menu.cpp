@@ -20,20 +20,12 @@ Menu::~Menu()
   }
 }
 
-/*
-string Menu::printSubmenu(MenuObject* menuObj)
-{
 
-  if(menuObj -> getSubMenu() == NULL) return menuObj -> getName() + " -> ";
-  else menuObj -> getSubMenu() -> printSubmenu() + menuObj -> getName();
-}
-
-
-Menu* Menu::getSubMenu()
+MenuObject* Menu::getSubMenu()
 {
   return subMenu;
 }
-*/
+
 
 void Menu::setSubmenu(Menu* subMenu)
 {
@@ -116,13 +108,13 @@ void Menu::menuItemsList()
   for(int i = 0; i < size; i++){
 
     cout << " " << (i + 1) << ". ";
-    cout << vMenuObjects[i] -> getName()
+    cout << vMenuObjects[i] -> printSubmenu(vMenuObjects[i]) 
          << "(" << vMenuObjects[i] -> getCommand() << ")" << endl;
     lastPos = i + 2;
   }
   cout << " " << lastPos << ". Search(search)" << endl;
-  cout << " " << lastPos << ". Help(help)" << endl;
-  cout << " " << lastPos << ". Go back(back)" << endl;
+  cout << " " << lastPos + 1 << ". Help(help)" << endl;
+  cout << " " << lastPos + 1 << ". Go back(back)" << endl;
 }
 
 string Menu::getCommandName(){
@@ -192,7 +184,7 @@ bool Menu::searchHorizontal(string commandName){
   for(int i = 0; i < size; i++){
 
     if(vMenuObjects[i] -> getCommand() == commandName){
-      vMenuObjects[i] -> printSubmenu();
+      vMenuObjects[i] -> printSubmenu(vMenuObjects[i] -> getSubMenu());
       if (DEBUG) cout << "command found!" << endl;
       return true;
     }
