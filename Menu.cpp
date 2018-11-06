@@ -4,6 +4,7 @@
 #include "Menu.h"
 #include "MenuCommand.h"
 #include "Command.h"
+#include "IO.h"
 
 using namespace std;
 
@@ -82,24 +83,15 @@ void Menu::run()
     cout << name << "(" << command << ")" << endl;
 
     menuItemsList();
-    cout << "Type a command's name(press the enter key at the end): ";
     string commandName = getCommandName();
-    if(commandName == "back") return;
-    else if(commandName == "search"){
-      cout << "command name: ";
-      commandName = getCommandName();
-      search(commandName);
-    }
-    else if(commandName == "help"){
-      cout << "command name: ";
-      commandName = getCommandName();
-      commandIndex = getCommandIndex(commandName);
-      vMenuObjects[commandIndex] -> help();
-    }else {
+    if(builtInCommands(commandName) == true){}
+    else if(commandName == "back") return;
+    else{
       commandIndex = getCommandIndex(commandName);
       executeCommand(commandIndex);
     }
   }
+
 }
 
 void Menu::menuItemsList()
@@ -108,20 +100,19 @@ void Menu::menuItemsList()
   for(int i = 0; i < size; i++){
 
     cout << " " << (i + 1) << ". ";
-    cout << vMenuObjects[i] -> printSubmenu(vMenuObjects[i]) 
+    cout << vMenuObjects[i] -> printSubmenu(vMenuObjects[i])
          << "(" << vMenuObjects[i] -> getCommand() << ")" << endl;
     lastPos = i + 2;
   }
   cout << " " << lastPos << ". Search(search)" << endl;
   cout << " " << lastPos + 1 << ". Help(help)" << endl;
-  cout << " " << lastPos + 1 << ". Go back(back)" << endl;
+  cout << " " << lastPos + 2 << ". Go back(back)" << endl;
 }
 
 string Menu::getCommandName(){
 
-  string commandName;
-  cin >> commandName;
-  return commandName;
+  IO io;
+  return io.getString();
 }
 
 int Menu::getCommandIndex(string commandName)
@@ -135,20 +126,23 @@ int Menu::getCommandIndex(string commandName)
 
       if(commandName == vMenuObjects[i] -> getCommand())
       {
-
         commandNum = i;
         return i;
-        ifContinue = false;
       }
     }
+    ifContinue = false;
      cout << "No such command! " << endl;
   }
-  return 0;
+  return -1;
 }
 
 void Menu::executeCommand(int commandIndex)
 {
-  if(commandIndex < 0){
+  if(commandIndex == -1){
+    if (DEBUG) cout << "ERROR: no such command" << endl;
+    return;
+
+  }else if(commandIndex < 0){
 
     if (DEBUG) cout << "ERROR: cell number can't be less than 0" << endl;
     return;
@@ -164,39 +158,62 @@ void Menu::executeCommand(int commandIndex)
 
 void Menu::search(string commandName){
 
-   bool downSearch = searchDown(commandName);
-   bool upSearch = searchUp(commandName);
+  MenuObject* command;
 
-   if(downSearch == false && upSearch == false){
-       cout << "no such command " << endl;
+  for(int i = 0; i < size; i++){
+
+    command = vMenuObjects[i];
+    if(command -> getCommand() == commandName){
+      cout << printSubmenu(command) + "(" << command -> getCommand()
+           << ")" << endl;
     }
+    command -> search(commandName);
+  }
 }
 
-bool Menu::searchUp(string commandName){
-    if(subMenu != NULL){
-      if(subMenu -> searchDown(commandName) == true) return true;
-      else return subMenu -> searchUp(commandName);
-    }else return false;
-  }
+
+bool Menu::builtInCommands(string expression){
 
 
-bool Menu::searchHorizontal(string commandName){
-  for(int i = 0; i < size; i++){
+    MenuObject* command;
+    string commandName;
 
-    if(vMenuObjects[i] -> getCommand() == commandName){
-      vMenuObjects[i] -> printSubmenu(vMenuObjects[i] -> getSubMenu());
-      if (DEBUG) cout << "command found!" << endl;
-      return true;
+    for(int i = 0; i < size; i++){
+      command = vMenuObjects[i];
+      commandName = command -> getCommand();
+      if(expression == "search " + commandName){
+        search(commandName);
+        return true;
+      }else if(expression == "help " + commandName){
+        command -> help();
+        return true;
+      }else if(expression == "back ") return true;
     }
-  }return false;
+    return false;
 }
 
-bool Menu::searchDown(string commandName){
-  for(int i = 0; i < size; i++){
-    if(vMenuObjects[i] -> searchHorizontal(commandName) == true) return true;
-  }
-  for(int i = 0; i < size; i++){
-    if(vMenuObjects[i] -> searchDown(commandName) == true) return true;
-  }
-  return false;
+MenuObject* Menu::menuFromString(char [] charMenu){
+
+    switch (symbol){
+      case '(':
+      break;
+
+      case ')':
+      break;
+
+      case ',':
+      break;
+
+      case ';':
+      break;
+
+      case '[':
+      break;
+
+      case ']':
+      break;
+
+      default:
+      cout << "no such symbol";
+    }
 }

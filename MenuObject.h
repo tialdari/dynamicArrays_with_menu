@@ -20,9 +20,7 @@ class MenuObject{
                   + " -> " + menuObj -> getName();};
     virtual MenuObject* getSubMenu() = 0;
     virtual void search(string commmandName) = 0;
-    virtual bool searchUp(string commandName) = 0;
-    virtual bool searchHorizontal(string commandName) = 0;
-    virtual bool searchDown(string commandName) = 0;
+
 
 
   protected:

@@ -37,10 +37,8 @@ class Menu: public MenuObject{
     void executeCommand(int commandIndex);
     void help(){cout << "no help\n" << endl;};
     void search(string commandName);
-    bool searchUp(string commandName);
-    bool searchHorizontal(string commandName);
-    bool searchDown(string commandName);
-
+    bool builtInCommands(string expression);
+    MenuObject* menuFromString(char [] charMenu);
 
   private:
     int size;

@@ -22,6 +22,8 @@ int main()
 {
 
 
+
+
   CTableManager* cTableManager = new CTableManager();
 
   Menu* menu = new Menu("main menu", "main_menu", NULL);

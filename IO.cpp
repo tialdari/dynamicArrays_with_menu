@@ -29,11 +29,11 @@ int IO::getInt(){
 string IO::getString(){
 
   string someString;
-  cout << "please, write a name ";
-  cin >> someString;
+  cout << "Type a command's name(press the enter key at the end): ";
+  getline(cin, someString);
 
-  cin.clear();
-  cin.ignore(10000, '\n');
+  //cin.clear();
+  //cin.ignore(10000, '\n');
 
   return someString;
 }

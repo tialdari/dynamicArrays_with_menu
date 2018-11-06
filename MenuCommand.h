@@ -23,10 +23,7 @@ class MenuCommand: public MenuObject{
   //  Menu* getSubMenu(){return subMenu;};
     void run();
     void help(){pCommand -> description();};
-    void search(string commandName){cout << "search command for a MenuCommand";};
-    bool searchUp(string commandName){cout << "searchUp command for a MenuCommand"; return false;};
-    bool searchHorizontal(string commandName){cout << "searchHorizontal command for a MenuCommand"; return false;};
-    bool searchDown(string commandName){cout << "searchDown command for a MenuCommand";return false;};
+    void search(string commandName){};
     MenuObject* getSubMenu(){return subMenu;};
 
   private:
