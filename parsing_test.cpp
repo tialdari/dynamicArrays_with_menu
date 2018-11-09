@@ -46,7 +46,7 @@ static int findWords(char* stringMenu, int size, int startIndex, char symbol, st
 
   while(currentSymbol != symbol){
     if(startIndex >= size){
-      //if(DEBUG) cout << "ERROR: index out of range" << endl;
+      if(DEBUG) cout << "ERROR: index out of range " << missingSymbol << endl;
       pSucc = false;
       return startIndex;
     }
