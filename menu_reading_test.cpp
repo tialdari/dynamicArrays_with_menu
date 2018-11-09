@@ -5,8 +5,10 @@
 using namespace std;
 
 
-static int findWords(char* stringMenu, int size, int &startIndex, char symbol, string& resultString, bool &pSucc);
+static int findWords(char* stringMenu, int size, int &startIndex, string& resultString, bool &pSucc);
 static bool readMenu(char* stringMenu, int size, int &startIndex, bool &pSucc);
+static void error(char missingSymbol, int index, char* text, int size);
+
 
 
 int main(){
@@ -35,14 +37,25 @@ int main(){
 }
 
 
-static int findWords(char* stringMenu, int size, int &startIndex, char symbol, string &resultString, bool &pSucc){
+static int findWords(char* stringMenu, int size, int &startIndex, string &resultString, bool &pSucc){
 
   resultString = "";
   char currentSymbol = stringMenu[++startIndex];
 
+  const char baseSymbols[] = {'(', ')', '[', ']', ';',','};
+  int baseSymbolsSize = 6;
+  char symbol = '\'';
+
   string currentStringSymbol;
 
   while(currentSymbol != symbol){
+    for(int i = 0; i < baseSymbolsSize; i++){
+      if(baseSymbols[i] == currentSymbol){
+        error('\'', startIndex, stringMenu, size);
+        pSucc = false;
+        return startIndex;
+      }
+    }
     if(startIndex >= size){
       cout << "ERROR: index out of range" << endl;
       pSucc = false;
@@ -85,15 +98,22 @@ static bool readMenu(char* stringMenu, int size, int &startIndex, bool &pSucc){
     }else if(symbol == 'w'){
 
       startIndex--;
-      startIndex = findWords(stringMenu, size, startIndex, '\'', name, pSucc);
+      startIndex = findWords(stringMenu, size, startIndex, name, pSucc);
+      if(pSucc == false){
+        cout << "wrong input!" << endl;
+        return false;
+      }else pSucc = false;
+
       cout << "name: " << name << endl;
-      pSucc = false;
       symbol = menuSymbols[++symbolIndex];
       symbol = menuSymbols[++symbolIndex];
       inputSymbol = stringMenu[++startIndex];
 
+
     }else{
-      cout << "ERROR: symbol not found" << endl;
+      cout << "symbolindex: " << symbolIndex << " inputSymbol: " << inputSymbol << endl;
+
+      error(symbol, startIndex, stringMenu, size);
       pSucc = true;
     }
     namesRead = pSucc;
@@ -105,4 +125,12 @@ static bool readMenu(char* stringMenu, int size, int &startIndex, bool &pSucc){
   return true;
 }
 
-//static int findWords(char* stringMenu, int size, int &startIndex, char symbol, string &resultString, bool &pSucc){
+static void error(char missingSymbol, int index, char* text, int size){
+
+    cout << "ERROR: missing " << missingSymbol << endl;
+    for(int i = 0; i < size; i++){
+      if(i == index) cout << "_" << text[i];
+      else cout << text[i];
+    } cout << endl;
+
+}
