@@ -191,29 +191,3 @@ bool Menu::builtInCommands(string expression){
     }
     return false;
 }
-
-MenuObject* Menu::menuFromString(char [] charMenu){
-
-    switch (symbol){
-      case '(':
-      break;
-
-      case ')':
-      break;
-
-      case ',':
-      break;
-
-      case ';':
-      break;
-
-      case '[':
-      break;
-
-      case ']':
-      break;
-
-      default:
-      cout << "no such symbol";
-    }
-}

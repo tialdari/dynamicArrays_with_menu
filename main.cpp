@@ -14,6 +14,8 @@
 #include "CTableManagerCommands.h"
 #include "CTable.h"
 #include "CTable.cpp"
+#include<fstream>
+#include<iostream>
 
 
 using namespace std;
@@ -21,9 +23,14 @@ using namespace std;
 int main()
 {
 
+  IO io;
+  string testString = io.readFromFile("test.txt");
+  cout << testString;
+
+  io.writeToFile("test.txt", testString);
 
 
-
+/*
   CTableManager* cTableManager = new CTableManager();
 
   Menu* menu = new Menu("main menu", "main_menu", NULL);
@@ -70,7 +77,7 @@ int main()
 
 
   cout << "end of programme";
-
+*/
 
   return 0;
 }

@@ -12,6 +12,9 @@ class IO{
     ~IO();
     int getInt();
     string getString();
+    void writeToFile(string fileName, string stringToWrite);
+    string readFromFile(string fileName);
+    void menuToString(Menu* menu);
 
 };
 

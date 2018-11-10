@@ -38,7 +38,6 @@ class Menu: public MenuObject{
     void help(){cout << "no help\n" << endl;};
     void search(string commandName);
     bool builtInCommands(string expression);
-    MenuObject* menuFromString(char [] charMenu);
 
   private:
     int size;
