@@ -19,12 +19,12 @@ static bool readCommand(char* stringMenu, int size, int &startIndex, bool &pSucc
 
 int main(){
 
-  string testString = "('menu glowne','main';('Podmenu1','menu1';['Uruchom przegladarke','internet','otwiera przegladarke'],('Podmenu1','menu1';)),('Podmenu2','menu2';['Test','test','pomoc dla test'], ['Default command','defcom','pomoc dla test']),['Napisz „Ala ma kota”','ala','napis o Ali'])";
+  string testString = "('menu glowne','main';('Podmenu1','menu1';['Uruchom przegladarke','internet','otwiera przegladarke'],('Podmenu1','menu1';)),('Podmenu2','menu2';['Test','test','pomoc dla test'],['Default command','defcom','pomoc dla test']),['Napisz „Ala ma kota”','ala','napis o Ali']))";
   int size = testString.length() + 1;
   char* testCharArr = new char [size];
   strcpy (testCharArr, testString.c_str());
 
-  string testString2 = "'menu glowne'";
+  string testString2 = "('Podmenu1','menu1';['Uruchom przegladarke','internet','otwiera przegladarke'],('Podmenu1','menu1';)))";
   int size2 = testString2.length() + 1;
   char* testCharArr2 = new char [size2];
   strcpy (testCharArr2, testString2.c_str());
@@ -47,12 +47,13 @@ int main(){
   string result = "";
   bool succ = true;
 
-  //readChildren(testCharArr2, size2, index, '(', succ);
-
+  readChildren(testCharArr, size, index2, '(', succ);
+/*
   readWord(testCharArr2, size2, index2, result, succ);
   cout << "word: " << result << endl;
   readCommand(testCharArr3, size3, index3, succ);
   readMenu(testCharArr4, size4, index4, succ);
+  */
 
   return 0;
 }
@@ -141,19 +142,26 @@ static bool readMenu(char* stringMenu, int size, int &startIndex, bool &pSucc){
   pSucc = false;
   inputSymbol = stringMenu[startIndex];
 
+
   for(int i = 0; i < endSymbolsSize; i++){
     if(inputSymbol == endSymbols[i]){
+      //cout << "inputSymbol: " << inputSymbol << endl;
+
        readChildren(stringMenu, size, startIndex, inputSymbol, pSucc);
-       inputSymbol = stringMenu[++startIndex];
+       inputSymbol = stringMenu[startIndex];
+    //   cout << "inputSymbol: " << inputSymbol << endl;
     }
   }
 
-  //cout << "inputSymbol: " << inputSymbol << endl;
+//  cout << "inputSymbol: " << inputSymbol << endl;
   if(inputSymbol != ')'){
+//    cout << "menu error" << endl;
     error(')', startIndex, stringMenu, size);
     return false;
   }else{
-    cout << "menu read succesfully" << endl;
+    //cout << "menu read succesfully" << endl;
+    inputSymbol = stringMenu[++startIndex];
+
     return true;
   }
 }
@@ -188,7 +196,48 @@ static bool readCommand(char* stringMenu, int size, int &startIndex, bool &pSucc
 
 static bool readChildren(char* stringMenu, int size, int &startIndex, char symbol, bool &pSucc){
 
-  cout << "reading children " << endl;
+//  cout << "readChildren... " << endl;
+  bool success = false;
+
+    //symbol is to be sure that the input symbol is the one from string menu and nothing more
+//    stringMenu symbols are to follow next symbols, so at the beginning or end of each loop
+  //  it's obligatory to go to the next stringMenu symbol
+  //  if the input symbol doesn't match any of the cases return false with an error
+
+    while(!success){
+
+      switch(symbol){
+        case '[':
+          readCommand(stringMenu, size, startIndex, pSucc);
+          //cout << "commands read succesfully" << endl;
+        break;
+
+        case '(':
+          readMenu(stringMenu, size, startIndex, pSucc);
+        //  cout << "menu read succesfully" << endl;
+        break;
+
+        case ',':
+          //cout << "next child" << endl;
+          startIndex++;
+        break;
+
+        case ')':
+        //  cout << "children read succesfully" << endl;
+          success = true;
+        break;
+
+        default:
+          cout << "ERROR, default" << endl;
+          error(symbol, startIndex, stringMenu, pSucc);
+          return false;
+      }
+      symbol = stringMenu[startIndex];
+    //  cout << "startIndex: " << startIndex << endl;
+    //  cout << "symbol: " << symbol << endl;
+  }
+
+//  cout << "children read succesfully" << endl;
   return true;
 }
 
