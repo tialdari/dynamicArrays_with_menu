@@ -27,7 +27,14 @@ int main()
   string testString = io.readFromFile("test.txt");
   cout << testString;
 
-  io.writeToFile("test.txt", testString);
+  int size = testString.length() + 1;
+  char* testCharArr = new char [size];
+  strcpy (testCharArr, testString.c_str());
+
+  int index = 0;
+  bool succ = true;
+
+  io.readMenu(testCharArr, size, index, succ);
 
 
 /*
