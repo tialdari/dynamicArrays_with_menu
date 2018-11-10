@@ -11,14 +11,11 @@
 using namespace std;
 
 
-static int findWords(char* stringMenu, int size, int &startIndex, string& resultString, bool &pSucc);
+static int readWord(char* stringMenu, int size, int &startIndex, string& resultString, bool &pSucc);
 static bool readMenu(char* stringMenu, int size, int &startIndex, bool &pSucc);
 static void error(char missingSymbol, int index, char* text, int size);
 static bool readChildren(char* stringMenu, int size, int &startIndex, char symbol, bool &pSucc);
 static bool readCommand(char* stringMenu, int size, int &startIndex, bool &pSucc);
-
-
-
 
 int main(){
 
@@ -27,28 +24,41 @@ int main(){
   char* testCharArr = new char [size];
   strcpy (testCharArr, testString.c_str());
 
-  string testString2 = "('Podmenu1','menu1';['Uruchom przegladarke','internet','otwiera przegladarke']";
+  string testString2 = "'menu glowne'";
   int size2 = testString2.length() + 1;
   char* testCharArr2 = new char [size2];
   strcpy (testCharArr2, testString2.c_str());
 
+  string testString3 = "['Uruchom przegladarke','internet','otwiera przegladarke']";
+  int size3 = testString3.length() + 1;
+  char* testCharArr3 = new char [size3];
+  strcpy (testCharArr3, testString3.c_str());
 
-  int index = 0;
+  string testString4 = "('Podmenu1','menu1';)";
+  int size4 = testString4.length() + 1;
+  char* testCharArr4 = new char [size];
+  strcpy (testCharArr4, testString4.c_str());
+
+
+  int index2 = 0;
+  int index3 = 0;
+  int index4 = 0;
+
   string result = "";
   bool succ = true;
 
-  //readCommand(testCharArr2, size2, index, succ);
-readChildren(testCharArr2, size2, index, '(', succ);
-  //readMenu(testCharArr2, size2, index, succ);
-//  index = findWords(testCharArr, size, index, '\'', result, succ);
+  //readChildren(testCharArr2, size2, index, '(', succ);
 
-
+  readWord(testCharArr2, size2, index2, result, succ);
+  cout << "word: " << result << endl;
+  readCommand(testCharArr3, size3, index3, succ);
+  readMenu(testCharArr4, size4, index4, succ);
 
   return 0;
 }
 
 
-static int findWords(char* stringMenu, int size, int &startIndex, string &resultString, bool &pSucc){
+static int readWord(char* stringMenu, int size, int &startIndex, string &resultString, bool &pSucc){
 
   resultString = "";
   char currentSymbol = stringMenu[++startIndex];
@@ -68,7 +78,6 @@ static int findWords(char* stringMenu, int size, int &startIndex, string &result
       }
     }
     if(startIndex >= size){
-      //cout << "ERROR: index out of range" << endl;
       pSucc = false;
       return startIndex;
     }
@@ -78,18 +87,17 @@ static int findWords(char* stringMenu, int size, int &startIndex, string &result
   }
 
   pSucc = true;
+
   return startIndex;
 }
 
 static bool readMenu(char* stringMenu, int size, int &startIndex, bool &pSucc){
 
-  //readName()
-  //readCommand()
   const char menuSymbols[] = {'(', '\'', 'w', '\'', ',', '\'', 'w', '\'', ';'};
   int mSymbolsSize = 9;
 
-  const char endSymbols[] = {'(', '[', ')'};
-  int endSymbolsSize = 3;
+  const char endSymbols[] = {'(', '['};
+  int endSymbolsSize = 2;
 
   pSucc = false;
   bool namesRead = pSucc;
@@ -98,11 +106,9 @@ static bool readMenu(char* stringMenu, int size, int &startIndex, bool &pSucc){
   char inputSymbol = stringMenu[startIndex];
   string name;
 
-
   while(!namesRead){
 
     if(symbol == inputSymbol){
-      //cout << "symbol: " << symbol << " inputSymbol: " << inputSymbol << endl;
 
       if(symbol == ';') {
         pSucc = true;
@@ -114,7 +120,7 @@ static bool readMenu(char* stringMenu, int size, int &startIndex, bool &pSucc){
     }else if(symbol == 'w'){
 
       startIndex--;
-      startIndex = findWords(stringMenu, size, startIndex, name, pSucc);
+      startIndex = readWord(stringMenu, size, startIndex, name, pSucc);
       if(pSucc == false){
         cout << "wrong input!" << endl;
         return false;
@@ -137,104 +143,20 @@ static bool readMenu(char* stringMenu, int size, int &startIndex, bool &pSucc){
 
   for(int i = 0; i < endSymbolsSize; i++){
     if(inputSymbol == endSymbols[i]){
-      if(inputSymbol == endSymbols[2]){
-        //cout << "menu read succesfully" << endl;
-        return true;
-      }
-      //cout << "symbol for read Children: " << inputSymbol << endl;
-      startIndex = readChildren(stringMenu, size, startIndex, inputSymbol, pSucc);
-      if(pSucc == true) return true;
+       readChildren(stringMenu, size, startIndex, inputSymbol, pSucc);
+       inputSymbol = stringMenu[++startIndex];
     }
   }
-    error('[', startIndex, stringMenu, size);
+
+  //cout << "inputSymbol: " << inputSymbol << endl;
+  if(inputSymbol != ')'){
+    error(')', startIndex, stringMenu, size);
     return false;
-
-
-  //cout << "end of loop" << endl;
-  //readChildren()
-
-}
-
-
-static bool readChildren(char* stringMenu, int size, int &startIndex, char symbol, bool &pSucc){
-
-  pSucc = false;
-  bool childrenRead = pSucc;
-  //char symbol = menuSymbols[symbolIndex];
-  char inputSymbol = stringMenu[startIndex];
-  vector<char> usedSymbols;
-  int vectorIndex = 0;
-
-
-  while(!childrenRead){
-
-
-    if(symbol == inputSymbol){
-
-
-      //cout << "symbol for read Children inside read Chidlren: " << inputSymbol << endl;
-      //cout << "symbol: " << symbol << endl;
-      usedSymbols.push_back(symbol);
-      switch(symbol){
-
-
-        case '(':
-          if(vectorIndex == 0 || usedSymbols[vectorIndex] == ','){
-            startIndex = readMenu(stringMenu, size, startIndex, pSucc);
-            vectorIndex++;
-          }else {
-          //  error(',', --startIndex, stringMenu, size);
-            return false;
-          }
-          //static void error(char missingSymbol, int index, char* text, int size){
-
-        break;
-
-        case '[':
-        //  cout << " reading commands in read children" << endl;
-          if(vectorIndex == 0 || usedSymbols[vectorIndex] == ','){
-            startIndex = readCommand(stringMenu, size, startIndex, pSucc);
-            vectorIndex++;
-          }else {
-          //  cout << "startIndex: " << startIndex << endl;
-            error(',', --startIndex, stringMenu, size);
-            return false;
-          }
-        break;
-
-        case ')':
-          if(vectorIndex == 0 || usedSymbols[vectorIndex] == ')' ||
-            usedSymbols[vectorIndex] == ']'){
-              pSucc = true;
-              return true;
-          }else {
-            error(')', --startIndex, stringMenu, size);
-            return false;
-          }
-        break;
-
-        case ',':
-          if(vectorIndex == 0 || usedSymbols[vectorIndex] == ')' ||
-            usedSymbols[vectorIndex] == ']'){
-              startIndex = readChildren(stringMenu, size, startIndex, '(', pSucc);
-              vectorIndex++;
-          }else{
-            error(')', --startIndex, stringMenu, size);
-            return false;
-          }
-        break;
-      }
-
-    }else{
-      error(symbol, startIndex, stringMenu, size);
-      pSucc = true;
-      return false;
-    }
-    childrenRead = pSucc;
+  }else{
+    cout << "menu read succesfully" << endl;
+    return true;
   }
-  return true;
 }
-
 
 static bool readCommand(char* stringMenu, int size, int &startIndex, bool &pSucc){
 
@@ -243,19 +165,19 @@ static bool readCommand(char* stringMenu, int size, int &startIndex, bool &pSucc
   bool commandRead = pSucc;
   string result;
 
-//cout << "reading command..." << endl;
-//cout << "inputSymbol: " <<  inputSymbol << endl;
-
   while(!commandRead){
     if(inputSymbol == '\''){
-      startIndex = findWords(stringMenu, size, startIndex, result, pSucc);
+      startIndex = readWord(stringMenu, size, startIndex, result, pSucc);
       cout << "commandName: " << result << endl;
       inputSymbol = stringMenu[++startIndex];
     }
     if(inputSymbol == ','){
       inputSymbol = stringMenu[++startIndex];
     }else if(inputSymbol == ']'){
-      pSucc = true;
+      ++startIndex;
+      inputSymbol = stringMenu[startIndex];
+//cout << "end of command reading, symbol: " << inputSymbol << endl;
+      //pSucc = true;
       return true;
     }else {
       error('s', startIndex, stringMenu, size);
@@ -264,12 +186,17 @@ static bool readCommand(char* stringMenu, int size, int &startIndex, bool &pSucc
   }return true;
 }
 
+static bool readChildren(char* stringMenu, int size, int &startIndex, char symbol, bool &pSucc){
+
+  cout << "reading children " << endl;
+  return true;
+}
 
 static void error(char missingSymbol, int index, char* text, int size){
 
     cout << "ERROR: missing " << missingSymbol << endl;
     for(int i = 0; i < size; i++){
-      if(i == index) cout << "_" << text[i];
+      if(i == index) cout << "_";
       else cout << text[i];
     } cout << endl;
 

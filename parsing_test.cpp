@@ -46,7 +46,7 @@ static int findWords(char* stringMenu, int size, int startIndex, char symbol, st
 
   while(currentSymbol != symbol){
     if(startIndex >= size){
-      if(DEBUG) cout << "ERROR: index out of range " << missingSymbol << endl;
+    //  if(DEBUG) cout << "ERROR: index out of range " << missingSymbol << endl;
       pSucc = false;
       return startIndex;
     }
@@ -88,10 +88,11 @@ static bool findMenu(char* stringMenu, int &index, int size, bool &pSucc){
       pSucc = false;
       symbolIndex = 0;
       while(symbolIndex < endSymbolsSize && pSucc != true){
-        cout << "beginning of inner loop" << endl;
+        if(DEBUG) cout << "beginning of inner loop" << endl;
+
+        cout << << endl;
 
         if(stringMenu[index] == endSymbols[symbolIndex]){
-          cout << "beginning of if " << endl;
 
             symbol = endSymbols[symbolIndex];
             switch(symbol){
@@ -102,7 +103,7 @@ static bool findMenu(char* stringMenu, int &index, int size, bool &pSucc){
                 break;
 
               case '[':
-                //fingCommand;
+                fingCommand;
                 pSucc = true;
                 break;
 
