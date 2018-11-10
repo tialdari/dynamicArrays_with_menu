@@ -19,7 +19,7 @@ static bool readCommand(char* stringMenu, int size, int &startIndex, bool &pSucc
 
 int main(){
 
-  string testString = "('menu glowne','main';('Podmenu1','menu1';['Uruchom przegladarke','internet','otwiera przegladarke'],('Podmenu1','menu1';)),('Podmenu2','menu2';['Test','test','pomoc dla test'],['Default command','defcom','pomoc dla test']),['Napisz „Ala ma kota”','ala','napis o Ali']))";
+  string testString = "('menu glowne','main';('Podmenu1','menu1';['Uruchom przegladarke','internet','otwiera przegladarke'],('Podmenu1','menu1';)),('Podmenu2','menu2';['Test','test','pomoc dla test'],['Default command','defcom','pomoc dla test']),['Napisz „Ala ma kota”','ala','napis o Ali'])";
   int size = testString.length() + 1;
   char* testCharArr = new char [size];
   strcpy (testCharArr, testString.c_str());
@@ -47,12 +47,11 @@ int main(){
   string result = "";
   bool succ = true;
 
-  readChildren(testCharArr, size, index2, '(', succ);
+  readMenu(testCharArr, size, index2, succ);
 /*
   readWord(testCharArr2, size2, index2, result, succ);
   cout << "word: " << result << endl;
   readCommand(testCharArr3, size3, index3, succ);
-  readMenu(testCharArr4, size4, index4, succ);
   */
 
   return 0;
@@ -123,17 +122,17 @@ static bool readMenu(char* stringMenu, int size, int &startIndex, bool &pSucc){
       startIndex--;
       startIndex = readWord(stringMenu, size, startIndex, name, pSucc);
       if(pSucc == false){
-        cout << "wrong input!" << endl;
         return false;
       }else pSucc = false;
 
       cout << "name: " << name << endl;
-      symbol = menuSymbols[++symbolIndex];
-      symbol = menuSymbols[++symbolIndex];
+      symbolIndex += 2;
+      symbol = menuSymbols[symbolIndex];
       inputSymbol = stringMenu[++startIndex];
 
     }else{
       error(symbol, startIndex, stringMenu, size);
+      return false;
       pSucc = true;
     }
     namesRead = pSucc;
@@ -145,23 +144,24 @@ static bool readMenu(char* stringMenu, int size, int &startIndex, bool &pSucc){
 
   for(int i = 0; i < endSymbolsSize; i++){
     if(inputSymbol == endSymbols[i]){
-      //cout << "inputSymbol: " << inputSymbol << endl;
-
        readChildren(stringMenu, size, startIndex, inputSymbol, pSucc);
+       if(pSucc == false){
+         error(')', startIndex, stringMenu, size);
+         return false;
+       }
        inputSymbol = stringMenu[startIndex];
-    //   cout << "inputSymbol: " << inputSymbol << endl;
     }
   }
 
 //  cout << "inputSymbol: " << inputSymbol << endl;
   if(inputSymbol != ')'){
 //    cout << "menu error" << endl;
-    error(')', startIndex, stringMenu, size);
+    error(symbol, startIndex, stringMenu, size);
+
     return false;
   }else{
     //cout << "menu read succesfully" << endl;
     inputSymbol = stringMenu[++startIndex];
-
     return true;
   }
 }
@@ -184,8 +184,7 @@ static bool readCommand(char* stringMenu, int size, int &startIndex, bool &pSucc
     }else if(inputSymbol == ']'){
       ++startIndex;
       inputSymbol = stringMenu[startIndex];
-//cout << "end of command reading, symbol: " << inputSymbol << endl;
-      //pSucc = true;
+      pSucc = true;
       return true;
     }else {
       error('s', startIndex, stringMenu, size);
@@ -228,8 +227,9 @@ static bool readChildren(char* stringMenu, int size, int &startIndex, char symbo
         break;
 
         default:
-          cout << "ERROR, default" << endl;
-          error(symbol, startIndex, stringMenu, pSucc);
+        //  error(symbol, startIndex, stringMenu, pSucc);
+          success = true;
+          pSucc = false;
           return false;
       }
       symbol = stringMenu[startIndex];
@@ -238,15 +238,16 @@ static bool readChildren(char* stringMenu, int size, int &startIndex, char symbo
   }
 
 //  cout << "children read succesfully" << endl;
+  pSucc = true;
   return true;
 }
 
 static void error(char missingSymbol, int index, char* text, int size){
 
-    cout << "ERROR: missing " << missingSymbol << endl;
+    cout << "ERROR: missing symbol at '_' " << endl;
     for(int i = 0; i < size; i++){
       if(i == index) cout << "_";
       else cout << text[i];
-    } cout << endl;
+    } cout << "\n\n" ;
 
 }
