@@ -39,6 +39,13 @@ class Menu: public MenuObject{
     void search(string commandName);
     bool builtInCommands(string expression);
 
+    void menuToString(Menu* menu);
+    int readWord(char* stringMenu, int size, int &startIndex, string& resultString, bool &pSucc);
+    bool readMenu(char* stringMenu, int size, int &startIndex, bool &pSucc);
+    bool readChildren(char* stringMenu, int size, int &startIndex, char symbol, bool &pSucc);
+    bool readCommand(char* stringMenu, int size, int &startIndex, bool &pSucc);
+    void error(char missingSymbol, int index, char* text, int size);
+
   private:
     int size;
     int objectsNum;

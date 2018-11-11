@@ -25,7 +25,6 @@ int main()
 
   IO io;
   string testString = io.readFromFile("test.txt");
-  cout << testString;
 
   int size = testString.length() + 1;
   char* testCharArr = new char [size];
@@ -34,7 +33,9 @@ int main()
   int index = 0;
   bool succ = true;
 
-  io.readMenu(testCharArr, size, index, succ);
+  Menu* menu = new Menu("", "", NULL);
+
+  menu -> readMenu(testCharArr, size, index, succ);
 
 
 /*
