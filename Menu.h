@@ -7,7 +7,7 @@ using namespace std;
 #define DEBUG false
 
 #include "MenuObject.h"
-#include "MenuObject.h"
+#include "MenuCommand.h"
 
 class Menu: public MenuObject{
 
@@ -27,6 +27,7 @@ class Menu: public MenuObject{
 
     MenuObject* getSubMenu();
     void setSubmenu(Menu* subMenu);
+    vector<MenuObject*> getMenuObjects(){return vMenuObjects;};
 
     void setvMenuObjects(vector<MenuObject*> newMenuObjects);
     void setpMenuObjListVal(int index, MenuObject* menuObj);
@@ -44,9 +45,9 @@ class Menu: public MenuObject{
 
     void menuToString(Menu* menu);
     int readWord(char* stringMenu, int size, int &startIndex, string& resultString, bool &pSucc);
-    Menu* readMenu(char* stringMenu, int size, int &startIndex, bool &pSucc);
-    bool readChildren(char* stringMenu, int size, int &startIndex, char symbol, bool &pSucc);
-    MenuObject* readCommand(char* stringMenu, int size, int &startIndex, bool &pSucc);
+    Menu* readMenu(char* stringMenu, int size, int &startIndex, MenuObject* subMenu, bool &pSucc);
+    void readChildren(char* stringMenu, int size, int &startIndex, char symbol, MenuObject* subMenu, bool &pSucc);
+    MenuCommand* readCommand(char* stringMenu, int size, int &startIndex, MenuObject* subMenu, bool &pSucc);
     void error(char missingSymbol, int index, char* text, int size);
 
   private:
@@ -54,7 +55,6 @@ class Menu: public MenuObject{
     int objectsNum;
     MenuObject* subMenu;
     vector<MenuObject*> vMenuObjects;
-
 
 };
 

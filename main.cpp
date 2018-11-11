@@ -20,9 +20,35 @@
 
 using namespace std;
 
+static void replaceVector(vector<MenuObject*> &originalVector, vector<MenuObject*> &newVector, int newSize){
+
+  originalVector.clear();
+  for(int i = 0; i < newSize; i++){
+    originalVector[i] = newVector[i];
+  }
+}
+
 int main()
 {
 
+  vector<MenuObject*> testVector;
+  testVector.push_back(new Menu("testVectorMenu", "testVectorMenu_c", NULL));
+  testVector.push_back(new Menu("testVectorMenu2", "testVectorMenu_c2", NULL));
+  testVector.push_back(new Menu("testVectorMenu3", "testVectorMenu_c3", NULL));
+
+
+  vector<MenuObject*> testVector2;
+  testVector2.push_back(new MenuCommand("createArrays", "create_a", NULL, new Command()));
+  testVector2.push_back(new MenuCommand("createArrays2", "create_a2", NULL, new Command()));
+
+
+  replaceVector(testVector, testVector2, testVector.size());
+
+  for(int i = 0; i < testVector2.size(); i++){
+    cout << testVector[i] -> getName() << endl;
+  }
+
+/*
   IO io;
   string testString = io.readFromFile("test.txt");
 
@@ -35,12 +61,16 @@ int main()
 
   Menu* menu = new Menu("", "", NULL);
 
-  menu = menu -> readMenu(testCharArr, size, index, succ);
+  menu = menu -> readMenu(testCharArr, size, index, NULL, succ);
 
 
 
-/*
-  CTableManager* cTableManager = new CTableManager();
+  for(int i = 0; i < 3; i++){
+  //  cout << menu -> getMenuObjects()[0] -> getMenuObjects()[i] -> getName() << endl;
+  }
+
+
+ CTableManager* cTableManager = new CTableManager();
 
   Menu* menu = new Menu("main menu", "main_menu", NULL);
   Menu* menu_1 = new Menu("Array Managment", "a_management", menu);

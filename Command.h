@@ -10,7 +10,7 @@ class Command{
   public:
     Command();
     virtual bool runCommand();
-    void description(){cout << descriptionVar;};
+    void description(){cout << descriptionVar << endl;};
     void setDescription(string newDescription){
       this -> descriptionVar = newDescription;
     };
