@@ -312,6 +312,8 @@ MenuObject* Menu::readCommand(char* stringMenu, int size, int &startIndex, bool 
 
   MenuObject* testCommand = new MenuCommand("testCommand", "test_ comm_n", NULL, new TestCommand());
 
+  const char commandSymbols[] = {'[', '\'', 'n', '\'', ',', '\'', 'c', '\'', ',', '\'', 'd', '\'', ']'};
+  int commandSymbolsSize = 13;
 
   char inputSymbol = stringMenu[++startIndex];
   pSucc = false;

@@ -24,14 +24,18 @@ int main(){
   char* testCharArr = new char [size];
   strcpy (testCharArr, testString.c_str());
 
+  string testString2 = "['Uruchom przegladarke','internet','otwiera przegladarke']";
+  int size2 = testString2.length() + 1;
+  char* testCharArr2 = new char [size2];
+  strcpy (testCharArr2, testString2.c_str());
+
   int index2 = 0;
   int index3 = 0;
   int index4 = 0;
 
   bool succ = true;
 
-  readMenu(testCharArr, size, index2, succ);
-
+  readCommand(testCharArr2, size2, index2, succ);
   return 0;
 }
 
@@ -143,29 +147,60 @@ static bool readMenu(char* stringMenu, int size, int &startIndex, bool &pSucc){
 
 static bool readCommand(char* stringMenu, int size, int &startIndex, bool &pSucc){
 
-  char inputSymbol = stringMenu[++startIndex];
+  char inputSymbol = stringMenu[startIndex];
+
+  const char commandSymbols[] = {'[', '\'', 'n', '\'', ',', '\'', 'c', '\'', ',', '\'', 'd', '\'', ']'};
+  int commandIndex = 0;
+  char commandSymbol = commandSymbols[commandIndex];
+
   pSucc = false;
   bool commandRead = pSucc;
   string result;
 
   while(!commandRead){
-    if(inputSymbol == '\''){
-      startIndex = readWord(stringMenu, size, startIndex, result, pSucc);
-      cout << "commandName: " << result << endl;
-      inputSymbol = stringMenu[++startIndex];
-    }
-    if(inputSymbol == ','){
-      inputSymbol = stringMenu[++startIndex];
-    }else if(inputSymbol == ']'){
-      ++startIndex;
-      inputSymbol = stringMenu[startIndex];
-      pSucc = true;
-      return true;
-    }else {
+//    cout << "commandSymbol: " << inputSymbol << endl;
+    if(inputSymbol == commandSymbol){
+
+              if(commandSymbol == ',' || commandSymbol == '[' ){
+                commandSymbol = commandSymbols[++commandIndex];
+                inputSymbol = stringMenu[++startIndex];
+              }else if(commandSymbol == '\''){
+                  commandSymbol = commandSymbols[++commandIndex];
+                  if(commandSymbol == 'n' || commandSymbol == 'c' || commandSymbol == 'd'){
+                    startIndex = readWord(stringMenu, size, startIndex, result, pSucc);
+                    switch(commandSymbol){
+                      case 'n': cout << "command's name: " << result << endl;
+                      break;
+
+                      case 'c': cout << "command's command: " << result << endl;
+                      break;
+
+                      case 'd': cout << "command's description: " << result << endl;
+                      break;
+
+                      default: break;
+                      }
+                    commandIndex += 2;
+                    commandSymbol = commandSymbols[commandIndex];
+                    inputSymbol = stringMenu[++startIndex];
+
+                  //  cout << "commandSymbol after readWord : " << commandSymbol << endl;
+                  //  cout << "inputSymbol after readWord : " << inputSymbol << endl;
+
+                  }else inputSymbol = stringMenu[++startIndex];
+              }else if(commandSymbol == ']'){
+                ++startIndex;
+                inputSymbol = stringMenu[startIndex];
+                pSucc = true;
+                return true;
+              }
+  }else{
       error('s', startIndex, stringMenu, size);
       return false;
     }
-  }return true;
+  }
+  cout << "end of command reading " << endl;
+  return true;
 }
 
 static bool readChildren(char* stringMenu, int size, int &startIndex, char symbol, bool &pSucc){
