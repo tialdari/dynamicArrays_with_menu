@@ -26,6 +26,9 @@ MenuObject* Menu::getSubMenu()
   return subMenu;
 }
 
+void Menu::setvMenuObjects(vector<MenuObject*> newMenuObjects){
+  this -> vMenuObjects = newMenuObjects;
+}
 
 void Menu::setSubmenu(Menu* subMenu)
 {
@@ -227,10 +230,11 @@ int Menu::readWord(char* stringMenu, int size, int &startIndex, string& resultSt
   return startIndex;
 }
 
-bool Menu::readMenu(char* stringMenu, int size, int &startIndex, bool &pSucc){
+Menu* Menu::readMenu(char* stringMenu, int size, int &startIndex, bool &pSucc){
 
+  Menu* menu = new Menu("test menu", "test_menu", NULL);
 
-  const char menuSymbols[] = {'(', '\'', 'w', '\'', ',', '\'', 'w', '\'', ';'};
+  const char menuSymbols[] = {'(', '\'', 'n', '\'', ',', '\'', 'c', '\'', ';'};
   int mSymbolsSize = 9;
 
   const char endSymbols[] = {'(', '['};
@@ -254,12 +258,17 @@ bool Menu::readMenu(char* stringMenu, int size, int &startIndex, bool &pSucc){
       symbol = menuSymbols[++symbolIndex];
       inputSymbol = stringMenu[++startIndex];
 
-    }else if(symbol == 'w'){
+    }else if(symbol == 'n' || symbol == 'c'){
 
       startIndex--;
       startIndex = readWord(stringMenu, size, startIndex, name, pSucc);
+      if(symbol == 'n'){
+        menu -> setName(name);
+      }else if(symbol == 'c'){
+        menu -> setCommand(name);
+      }
       if(pSucc == false){
-        return false;
+        return menu;
       }else pSucc = false;
 
       cout << "name: " << name << endl;
@@ -269,8 +278,8 @@ bool Menu::readMenu(char* stringMenu, int size, int &startIndex, bool &pSucc){
 
     }else{
       error(symbol, startIndex, stringMenu, size);
-      return false;
       pSucc = true;
+      return menu;
     }
     namesRead = pSucc;
 }
@@ -284,7 +293,7 @@ bool Menu::readMenu(char* stringMenu, int size, int &startIndex, bool &pSucc){
        readChildren(stringMenu, size, startIndex, inputSymbol, pSucc);
        if(pSucc == false){
          error(')', startIndex, stringMenu, size);
-         return false;
+         return menu;
        }
        inputSymbol = stringMenu[startIndex];
     }
@@ -292,15 +301,17 @@ bool Menu::readMenu(char* stringMenu, int size, int &startIndex, bool &pSucc){
 
   if(inputSymbol != ')'){
     error(symbol, startIndex, stringMenu, size);
-
-    return false;
   }else{
     inputSymbol = stringMenu[++startIndex];
-    return true;
   }
+  //menu -> setvMenuObjects(children);
+  return menu;
 }
 
-bool Menu::readCommand(char* stringMenu, int size, int &startIndex, bool &pSucc){
+MenuObject* Menu::readCommand(char* stringMenu, int size, int &startIndex, bool &pSucc){
+
+  MenuObject* testCommand = new MenuCommand("testCommand", "test_ comm_n", NULL, new TestCommand());
+
 
   char inputSymbol = stringMenu[++startIndex];
   pSucc = false;
@@ -319,12 +330,12 @@ bool Menu::readCommand(char* stringMenu, int size, int &startIndex, bool &pSucc)
       ++startIndex;
       inputSymbol = stringMenu[startIndex];
       pSucc = true;
-      return true;
+      return testCommand;
     }else {
       error('s', startIndex, stringMenu, size);
-      return false;
+      return testCommand;
     }
-  }return true;
+  }return testCommand;
 }
 
 bool Menu::readChildren(char* stringMenu, int size, int &startIndex, char symbol, bool &pSucc){

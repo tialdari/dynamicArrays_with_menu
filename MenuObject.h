@@ -12,7 +12,14 @@ class MenuObject{
     virtual ~MenuObject(){};
     virtual void run() = 0;
     string getName(){return name;};
+    void setName(string newName){
+      this -> name = newName;
+    };
     string getCommand(){return command;};
+    void setCommand(string newCommand){
+      this -> command = newCommand;
+    };
+
     virtual void help() = 0;
     virtual string printSubmenu(MenuObject* menuObj){
       if(menuObj -> getSubMenu() == NULL) return menuObj -> getName();

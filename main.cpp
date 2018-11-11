@@ -35,7 +35,9 @@ int main()
 
   Menu* menu = new Menu("", "", NULL);
 
-  menu -> readMenu(testCharArr, size, index, succ);
+  menu = menu -> readMenu(testCharArr, size, index, succ);
+  cout << "menu's name: " << menu -> getName() << endl;
+  cout << "menu's command: " << menu -> getCommand() << endl;
 
 
 /*

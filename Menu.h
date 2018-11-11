@@ -7,6 +7,8 @@ using namespace std;
 #define DEBUG false
 
 #include "MenuObject.h"
+#include "MenuObject.h"
+
 class Menu: public MenuObject{
 
   public:
@@ -26,6 +28,7 @@ class Menu: public MenuObject{
     MenuObject* getSubMenu();
     void setSubmenu(Menu* subMenu);
 
+    void setvMenuObjects(vector<MenuObject*> newMenuObjects);
     void setpMenuObjListVal(int index, MenuObject* menuObj);
     void addNewCommand(MenuObject* menuObj);
     void deleteCommand(int index);
@@ -41,9 +44,9 @@ class Menu: public MenuObject{
 
     void menuToString(Menu* menu);
     int readWord(char* stringMenu, int size, int &startIndex, string& resultString, bool &pSucc);
-    bool readMenu(char* stringMenu, int size, int &startIndex, bool &pSucc);
+    Menu* readMenu(char* stringMenu, int size, int &startIndex, bool &pSucc);
     bool readChildren(char* stringMenu, int size, int &startIndex, char symbol, bool &pSucc);
-    bool readCommand(char* stringMenu, int size, int &startIndex, bool &pSucc);
+    MenuObject* readCommand(char* stringMenu, int size, int &startIndex, bool &pSucc);
     void error(char missingSymbol, int index, char* text, int size);
 
   private:
