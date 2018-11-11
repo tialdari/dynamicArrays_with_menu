@@ -183,10 +183,8 @@ static bool readCommand(char* stringMenu, int size, int &startIndex, bool &pSucc
                     commandIndex += 2;
                     commandSymbol = commandSymbols[commandIndex];
                     inputSymbol = stringMenu[++startIndex];
-
                   //  cout << "commandSymbol after readWord : " << commandSymbol << endl;
                   //  cout << "inputSymbol after readWord : " << inputSymbol << endl;
-
                   }else inputSymbol = stringMenu[++startIndex];
               }else if(commandSymbol == ']'){
                 ++startIndex;
@@ -242,7 +240,7 @@ static void error(char missingSymbol, int index, char* text, int size){
 
     cout << "ERROR: missing symbol at '_' " << endl;
     for(int i = 0; i < size; i++){
-      if(i == index) cout << "_";
+      if(i == index) cout << "_" << text[i];
       else cout << text[i];
     } cout << "\n\n" ;
 

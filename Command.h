@@ -10,7 +10,13 @@ class Command{
   public:
     Command();
     virtual bool runCommand();
-    virtual void description(){cout << "default description";};
+    void description(){cout << descriptionVar;};
+    void setDescription(string newDescription){
+      this -> descriptionVar = newDescription;
+    };
+
+  protected:
+    string descriptionVar;
 
 };
 
@@ -26,9 +32,6 @@ class TestCommand : public Command{
     bool runCommand(){
       cout << "test command running" << endl;
       return true;
-    }
-    void description(){
-      cout << "test command's description" << endl;
     }
 
 };

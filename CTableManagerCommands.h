@@ -15,8 +15,6 @@ class CreateArrays: public Command{
     CreateArrays(CTableManager *cTableManager);
     ~CreateArrays();
     bool runCommand();
-    void description();
-
 
   private:
     CTableManager* cTableManager;

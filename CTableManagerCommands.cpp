@@ -23,6 +23,7 @@ using namespace std;
   CreateArrays::CreateArrays(CTableManager *cTableManager){
     if(DEBUG) cout << "new CreateArrays command with a cTableManager" << endl;
     this -> cTableManager = cTableManager;
+    this -> descriptionVar = "Creates given number of new array";
   }
 
   bool CreateArrays::runCommand(){
@@ -33,12 +34,6 @@ using namespace std;
     cTableManager -> createArrays(arrNum);
     return true;
   }
-
-  void CreateArrays::description(){
-    cout << "Creates given number of new array" << endl;
-  }
-
-
 
   SetArrValue::SetArrValue(){
     if(DEBUG) cout << "new SetArrValue command" << endl;
@@ -51,6 +46,7 @@ using namespace std;
   SetArrValue::SetArrValue(CTableManager *cTableManager){
     if(DEBUG) cout << "new SetArrValue command with a cTableManager" << endl;
     this -> cTableManager = cTableManager;
+    this -> descriptionVar = "Changes value of the given cell of the given array to the given value";
   }
 
   bool SetArrValue::runCommand(){
@@ -94,6 +90,8 @@ using namespace std;
   DeleteArray::DeleteArray(CTableManager *cTableManager){
     if(DEBUG) cout << "new DeleteArray command with a cTableManager" << endl;
     this -> cTableManager = cTableManager;
+    this -> descriptionVar = "Deletes the chosen array";
+
   }
 
   bool DeleteArray::runCommand(){
@@ -106,11 +104,6 @@ using namespace std;
     return true;
   }
 
-  void DeleteArray::description(){
-    cout << "Deletes the chosen array" << endl;
-  }
-
-
 
   DeleteAllArrays::DeleteAllArrays(){
     if(DEBUG) cout << "new DeleteAllArrays command" << endl;
@@ -122,6 +115,7 @@ using namespace std;
 
   DeleteAllArrays::DeleteAllArrays(CTableManager *cTableManager){
     if(DEBUG) cout << "new DeleteAllArrays command with a cTableManager" << endl;
+    this -> descriptionVar = "Deletes the chosen array";
   }
 
   bool DeleteAllArrays::runCommand(){
@@ -131,11 +125,6 @@ using namespace std;
     cout << "All arrays have been deleted " << endl;
     return true;
   }
-
-  void DeleteAllArrays::description(){
-    cout << "Deletes all arrays" << endl;
-  }
-
 
 
 
@@ -150,6 +139,7 @@ using namespace std;
   SetArrName::SetArrName(CTableManager *cTableManager){
     if(DEBUG) cout << "new SetArrName command with a cTableManager" << endl;
     this -> cTableManager = cTableManager;
+    this -> descriptionVar = "Changes the current name of a given array to the given name";
   }
 
   bool SetArrName::runCommand(){
@@ -166,9 +156,6 @@ using namespace std;
     return true;
   }
 
-  void SetArrName::description(){
-    cout << "Changes the current name of a given array to the given name" << endl;
-  }
 
 
 
@@ -183,6 +170,7 @@ using namespace std;
   GetArrInfo::GetArrInfo(CTableManager *cTableManager){
       if(DEBUG) cout << "new GetArrInfo command with a cTableManager" << endl;
       this -> cTableManager = cTableManager;
+      this -> descriptionVar = "Given the parameters of the array of a given index";
     }
 
   bool GetArrInfo::runCommand(){
@@ -194,10 +182,6 @@ using namespace std;
       cTableManager -> getArrInfo(arrIndx);
       return true;
     }
-
-  void GetArrInfo::description(){
-      cout << "Given the parameters of the array of a given index" << endl;
-  }
 
 
 
@@ -213,6 +197,7 @@ using namespace std;
   GetArrSize::GetArrSize(CTableManager *cTableManager){
     if(DEBUG) cout << "new GetArrSize command with a cTableManager" << endl;
     this -> cTableManager = cTableManager;
+    this -> descriptionVar = "Gives the size of the array of the given index";
   }
 
   bool GetArrSize::runCommand(){
@@ -227,12 +212,6 @@ using namespace std;
 
   }
 
-  void GetArrSize::description(){
-    cout << "Gives the size of the array of the given index" << endl;
-  }
-
-
-
 
 
   SetArrSize::SetArrSize(){
@@ -246,6 +225,7 @@ using namespace std;
   SetArrSize::SetArrSize(CTableManager *cTableManager){
     if(DEBUG) cout << "new SetArrSize command with a cTableManager" << endl;
     this -> cTableManager = cTableManager;
+    this -> descriptionVar = "Changes the current size of the given array to the given size" ;
   }
 
   bool SetArrSize::runCommand(){
@@ -264,10 +244,6 @@ using namespace std;
 
   }
 
-  void SetArrSize::description(){
-    cout << "Changes the current size of the given array ";
-    cout << "to the given size" << endl;
-  }
 
 
 
@@ -282,6 +258,7 @@ using namespace std;
   CloneArr::CloneArr(CTableManager *cTableManager){
     if(DEBUG) cout << "new CloneArr command with a cTableManager" << endl;
     this -> cTableManager = cTableManager;
+    this -> descriptionVar = "Clones the chosen array and adds it at the end of the storage";
   }
 
   bool CloneArr::runCommand(){
@@ -293,9 +270,4 @@ using namespace std;
     cTableManager -> cloneArr(arrIndx);
 
     return true;
-  }
-
-  void CloneArr::description(){
-    cout << "Clones the chosen array ";
-    cout << "and adds it at the end of the storage" << endl;
   }
