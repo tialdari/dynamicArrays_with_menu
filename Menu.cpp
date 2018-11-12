@@ -101,7 +101,6 @@ void Menu::menuItemsList()
 {
   int lastPos = 0;
 
-  cout << "size: " << size << endl;
   for(int i = 0; i < size; i++){
 
     cout << " " << (i + 1) << ". ";
@@ -161,42 +160,95 @@ void Menu::executeCommand(int commandIndex)
 
 }
 
+/*
 void Menu::search(string commandName){
 
-  MenuObject* command;
+  string currentCommandName;
+  cout << "searching " << getName() << endl;
 
   for(int i = 0; i < size; i++){
-
-    command = vMenuObjects[i];
-    if(command -> getCommandsName() == commandName){
-      cout << printSubmenu(command) + "(" << command -> getCommandsName()
+    currentCommandName = vMenuObjects[i] -> getCommandsName();
+    //cout << currentCommandName << " ?= " << commandName << endl;
+    //str1.compare(str2)
+    if(commandName.compare(currentCommandName)){
+    //  cout << "!!! " << currentCommandName << " == " << commandName << "." << endl;
+      cout << printSubmenu(vMenuObjects[i]) + "(" << currentCommandName
            << ")" << endl;
     }
-    command -> search(commandName);
+    vMenuObjects[i] -> search(commandName);
   }
+}
+*/
+
+void Menu::search(string commandName){
+
+  cout << "searching in " << getName() << endl;
+  cout << "looking for command: " << commandName << endl;
+  MenuObject* menuObj;
+  string currentCommandName;
+
+  for(int i = 0; i < size; i++){
+    menuObj = vMenuObjects[i];
+    currentCommandName = menuObj -> getCommandsName();
+    cout << currentCommandName;
+    if(commandName.compare(currentCommandName)) cout << " is what we're looking for";
+    cout << endl;
+    menuObj -> search(commandName);
+  }
+
 }
 
 
 bool Menu::builtInCommands(string expression){
 
+  int stringSize = expression.length() + 1;
+  char* expressionArr = new char [stringSize];
+  strcpy (expressionArr, expression.c_str());
+
+  string basicCommand;
+  string commandName;
+  string currentStringSymbol;
+
+  int index = 0;
+  bool before = true;
+
+  for(int i = 0; i < stringSize; i++){
+    currentStringSymbol = string(1, expressionArr[i]);
+
+    if(currentStringSymbol == " "){
+      before = false;
+      i++;
+      currentStringSymbol = string(1, expressionArr[i]);
+    }
+    if(before) basicCommand += currentStringSymbol;
+    else commandName += currentStringSymbol;
+  }
+
+  cout << "basicCommand: " << basicCommand << endl;
+  cout << "commmandName: " << commandName << endl;
+
+  if(basicCommand == "search"){
+    cout << "running search command, looking for " << commandName << endl;
+
+    search(commandName);
+
+    return true;
+  }else if(basicCommand == "back" && commandName == "") return true;
 
     MenuObject* command;
-    string commandName;
+    string inputCommandName;
 
     for(int i = 0; i < size; i++){
       command = vMenuObjects[i];
-      commandName = command -> getCommandsName();
-      if(expression == "search " + commandName){
-        search(commandName);
-        return true;
-      }else if(expression == "help " + commandName){
+      inputCommandName = command -> getCommandsName();
+      if(basicCommand == "help"){//&& commandName == inputCommandName
+        cout << "running help command" << endl;
         command -> help();
         return true;
-      }else if(expression == "back ") return true;
+      }
     }
     return false;
 }
-
 
 
 string Menu::menuToString(){
@@ -223,7 +275,6 @@ string Menu::childrenToString(){
     childrenString += vMenuObjects[i] -> menuObjectToString();
     if(i < comasNum) childrenString += ",";
   }
-
   return childrenString;
 }
 

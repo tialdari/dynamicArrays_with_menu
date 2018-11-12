@@ -21,17 +21,39 @@ using namespace std;
 
 int main()
 {
+
+
   /*
-    string testString = "internet";
-    Menu* menu = new Menu("test_menu", "test", NULL);
+  string testString = "create_a2";
+  string testString2 = "create_a";
 
-  cout <<  menu -> menuObjectToString() << endl;
+  cout << (testString != testString2);
 
-  CTableManager* cTableManager = new CTableManager();
-  MenuObject* createArrays = new MenuCommand("createArrays", "create_a", menu, new CreateArrays(cTableManager));
 
-  cout << createArrays -> menuObjectToString();
-*/
+  string expression = "help ala";
+  int stringSize = expression.length() + 1;
+  char* expressionArr = new char [stringSize];
+  strcpy (expressionArr, expression.c_str());
+
+  string basicCommand;
+  string commandName;
+  string currentStringSymbol;
+
+  int index = 0;
+  bool before = true;
+
+  for(int i = 0; i < stringSize; i++){
+    currentStringSymbol = string(1, expressionArr[i]);
+
+    if(currentStringSymbol == " "){
+      before = false;
+      i++;
+      currentStringSymbol = string(1, expressionArr[i]);
+    }
+    if(before) basicCommand += currentStringSymbol;
+    else commandName += currentStringSymbol;
+  }
+
 
   IO io;
   string testString = io.readFromFile("test.txt");
@@ -47,16 +69,13 @@ int main()
 
   menu = menu -> readMenu(testCharArr, size, index, NULL, succ);
 
-  cout << "menu's children: " << menu -> childrenToString();
+  string testString2 =  menu -> menuObjectToString();
+
+  if(testString == testString2) cout << "readMenuObject method works correctly" << endl;
+*/
 
 
 
-//  cout << new_[1] -> getMenuObjects();
-
-/*
-  for(int i = 0; i < 3; i++){
-  //  cout << menu -> getMenuObjects()[0] -> getMenuObjects()[i] -> getName() << endl;
-  }
 
 
  CTableManager* cTableManager = new CTableManager();
@@ -105,7 +124,9 @@ int main()
 
 
   cout << "end of programme";
-*/
+
+
+
 
   return 0;
 }
