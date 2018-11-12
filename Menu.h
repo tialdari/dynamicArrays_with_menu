@@ -43,7 +43,11 @@ class Menu: public MenuObject{
     void search(string commandName);
     bool builtInCommands(string expression);
 
-    void menuToString(Menu* menu);
+    string wordToString(string name);
+    string commandToString(MenuCommand* menuCommand);
+    string childrenToString(vector<MenuObject*> menuChildren);
+    string menuToString(Menu* menu);
+
     int readWord(char* stringMenu, int size, int &startIndex, string& resultString, bool &pSucc);
     Menu* readMenu(char* stringMenu, int size, int &startIndex, MenuObject* subMenu, bool &pSucc);
     vector<MenuObject*> readChildren(char* stringMenu, int size, int &startIndex, char symbol, MenuObject* subMenu, bool &pSucc);

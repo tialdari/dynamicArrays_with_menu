@@ -197,10 +197,31 @@ bool Menu::builtInCommands(string expression){
     return false;
 }
 
-void Menu::menuToString(Menu* menu){
 
+
+  //write menu's name and commands
+  //write children
+  //for commands write name, command and setDescription
+  //for menu recursion
+string Menu::wordToString(string name){
+    return "\'" + name + "\'";
+}
+
+string Menu::commandToString(MenuCommand* menuCommand){
+  return "testCommandString";
 
 }
+
+string Menu::childrenToString(vector<MenuObject*> menuChildren){
+  return "testChildrenString";
+
+}
+
+string Menu::menuToString(Menu* menu){
+
+  return "testMenuString";
+}
+
 
 int Menu::readWord(char* stringMenu, int size, int &startIndex, string& resultString, bool &pSucc){
   resultString = "";

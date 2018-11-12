@@ -21,8 +21,12 @@ using namespace std;
 
 int main()
 {
+    string testString = "internet";
+    Menu* menu = new Menu("", "", NULL);
 
+  cout <<  menu -> wordToString(testString);
 
+/*
 
   IO io;
   string testString = io.readFromFile("test.txt");
@@ -39,7 +43,7 @@ int main()
   menu = menu -> readMenu(testCharArr, size, index, NULL, succ);
 
   menu -> run();
-  /*
+
   vector<MenuObject*> new_(menu -> getMenuObjects());
   vector<MenuObject*> new2_(new_[0] -> getMenuObjects());
   cout << new2_[0] -> getName();
