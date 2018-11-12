@@ -27,6 +27,8 @@ class MenuObject{
                   + " -> " + menuObj -> getName();};
     virtual MenuObject* getSubMenu() = 0;
     virtual void search(string commmandName) = 0;
+    virtual vector<MenuObject*> getMenuObjects(){return vector<MenuObject*>();};
+
 
 
 

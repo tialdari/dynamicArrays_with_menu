@@ -25,7 +25,7 @@ class MenuCommand: public MenuObject{
     void help(){pCommand -> description();};
     void search(string commandName){};
     MenuObject* getSubMenu(){return subMenu;};
-
+    
   private:
     Command* pCommand;
     MenuObject* subMenu;
