@@ -31,6 +31,10 @@ class MenuObject{
     virtual void search(string commmandName) = 0;
     virtual vector<MenuObject*> getMenuObjects(){return vector<MenuObject*>();};
     virtual Command* getCommand(){return NULL;};
+    virtual string menuObjectToString(){return "virtual class implementation";};
+    string nameToString(string name){return "\'" + name + "\'";};
+  
+
 
 
 

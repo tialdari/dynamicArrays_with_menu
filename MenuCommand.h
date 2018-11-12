@@ -26,6 +26,9 @@ class MenuCommand: public MenuObject{
     void search(string commandName){};
     MenuObject* getSubMenu(){return subMenu;};
     Command* getCommand(){return pCommand;};
+    string commandToString();
+    string menuObjectToString(){return commandToString();};
+
 
   private:
     Command* pCommand;

@@ -22,15 +22,14 @@ using namespace std;
 int main()
 {
     string testString = "internet";
-    Menu* menu = new Menu("", "", NULL);
+    Menu* menu = new Menu("test_menu", "test", NULL);
 
-  cout <<  menu -> wordToString(testString) << endl;
+  cout <<  menu -> menuObjectToString() << endl;
 
   CTableManager* cTableManager = new CTableManager();
   MenuObject* createArrays = new MenuCommand("createArrays", "create_a", menu, new CreateArrays(cTableManager));
 
-  cout << menu -> commandToString(createArrays) << endl;
-
+  cout << createArrays -> menuObjectToString();
 /*
 
   IO io;

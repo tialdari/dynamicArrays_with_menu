@@ -203,36 +203,32 @@ bool Menu::builtInCommands(string expression){
   //write children
   //for commands write name, command and setDescription
   //for menu recursion
-string Menu::wordToString(string name){
-    return "\'" + name + "\'";
+
+
+
+string Menu::menuToString(){
+
+  string menuString = "(";
+  string menuParameter = getName();
+  menuString += nameToString(menuParameter) + ",";
+
+  menuParameter = getCommandsName();
+  menuString += nameToString(menuParameter) + ";";
+
+  menuString += childrenToString();
+  menuString += ")";
+
+  return menuString;
 }
 
-string Menu::commandToString(MenuObject* menuCommand){
+string Menu::childrenToString(){
 
-  string commandString = "[";
-  string commandParameter = menuCommand -> getName();
-  commandString += wordToString(commandParameter) + ",";
 
-  commandParameter = menuCommand -> getCommandsName();
-  commandString += wordToString(commandParameter) + ",";
 
-  commandParameter = menuCommand -> getCommand() -> getDescription();
-  commandString += wordToString(commandParameter);
-
-  commandString += "]";
-
-  return commandString;
-}
-
-string Menu::childrenToString(vector<MenuObject*> menuChildren){
   return "testChildrenString";
-
 }
 
-string Menu::menuToString(Menu* menu){
 
-  return "testMenuString";
-}
 
 
 int Menu::readWord(char* stringMenu, int size, int &startIndex, string& resultString, bool &pSucc){

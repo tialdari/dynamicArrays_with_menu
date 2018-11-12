@@ -25,3 +25,20 @@ void MenuCommand::run()
 
   pCommand -> runCommand();
 }
+
+string MenuCommand::commandToString(){
+
+  string commandString = "[";
+  string commandParameter = getName();
+  commandString += nameToString(commandParameter) + ",";
+
+  commandParameter = getCommandsName();
+  commandString += nameToString(commandParameter) + ",";
+
+  commandParameter = pCommand -> getDescription();
+  commandString += nameToString(commandParameter);
+
+  commandString += "]";
+
+  return commandString;
+}
