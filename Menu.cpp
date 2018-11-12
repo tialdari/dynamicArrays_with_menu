@@ -106,7 +106,7 @@ void Menu::menuItemsList()
 
     cout << " " << (i + 1) << ". ";
     cout << vMenuObjects[i] -> printSubmenu(vMenuObjects[i])
-         << "(" << vMenuObjects[i] -> getCommand() << ")" << endl;
+         << "(" << vMenuObjects[i] -> getCommandsName() << ")" << endl;
     lastPos = i + 2;
   }
   cout << " " << lastPos << ". Search(search)" << endl;
@@ -129,7 +129,7 @@ int Menu::getCommandIndex(string commandName)
   {
     for(int i = 0; i < size; i++){
 
-      if(commandName == vMenuObjects[i] -> getCommand())
+      if(commandName == vMenuObjects[i] -> getCommandsName())
       {
         commandNum = i;
         return i;
@@ -168,8 +168,8 @@ void Menu::search(string commandName){
   for(int i = 0; i < size; i++){
 
     command = vMenuObjects[i];
-    if(command -> getCommand() == commandName){
-      cout << printSubmenu(command) + "(" << command -> getCommand()
+    if(command -> getCommandsName() == commandName){
+      cout << printSubmenu(command) + "(" << command -> getCommandsName()
            << ")" << endl;
     }
     command -> search(commandName);
@@ -185,7 +185,7 @@ bool Menu::builtInCommands(string expression){
 
     for(int i = 0; i < size; i++){
       command = vMenuObjects[i];
-      commandName = command -> getCommand();
+      commandName = command -> getCommandsName();
       if(expression == "search " + commandName){
         search(commandName);
         return true;
@@ -207,9 +207,21 @@ string Menu::wordToString(string name){
     return "\'" + name + "\'";
 }
 
-string Menu::commandToString(MenuCommand* menuCommand){
-  return "testCommandString";
+string Menu::commandToString(MenuObject* menuCommand){
 
+  string commandString = "[";
+  string commandParameter = menuCommand -> getName();
+  commandString += wordToString(commandParameter) + ",";
+
+  commandParameter = menuCommand -> getCommandsName();
+  commandString += wordToString(commandParameter) + ",";
+
+  commandParameter = menuCommand -> getCommand() -> getDescription();
+  commandString += wordToString(commandParameter);
+
+  commandString += "]";
+
+  return commandString;
 }
 
 string Menu::childrenToString(vector<MenuObject*> menuChildren){
@@ -366,7 +378,7 @@ MenuCommand* Menu::readCommand(char* stringMenu, int size, int &startIndex, Menu
 
                       case 'c':
                         testCommand -> setCommand(result);
-                        cout << "command's command: " << testCommand -> getCommand() << endl;
+                        cout << "command's command: " << testCommand -> getCommandsName() << endl;
                       break;
 
                       case 'd':

@@ -44,7 +44,7 @@ class Menu: public MenuObject{
     bool builtInCommands(string expression);
 
     string wordToString(string name);
-    string commandToString(MenuCommand* menuCommand);
+    string commandToString(MenuObject* menuCommand);
     string childrenToString(vector<MenuObject*> menuChildren);
     string menuToString(Menu* menu);
 

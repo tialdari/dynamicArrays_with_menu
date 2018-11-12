@@ -24,7 +24,12 @@ int main()
     string testString = "internet";
     Menu* menu = new Menu("", "", NULL);
 
-  cout <<  menu -> wordToString(testString);
+  cout <<  menu -> wordToString(testString) << endl;
+
+  CTableManager* cTableManager = new CTableManager();
+  MenuObject* createArrays = new MenuCommand("createArrays", "create_a", menu, new CreateArrays(cTableManager));
+
+  cout << menu -> commandToString(createArrays) << endl;
 
 /*
 

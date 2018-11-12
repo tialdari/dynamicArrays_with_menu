@@ -14,6 +14,7 @@ class Command{
     void setDescription(string newDescription){
       this -> descriptionVar = newDescription;
     };
+    string getDescription(){return descriptionVar;};
 
   protected:
     string descriptionVar;

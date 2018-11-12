@@ -4,6 +4,8 @@
 
 using namespace std;
 
+#include "Command.h"
+
 #define DEBUG false
 
 class MenuObject{
@@ -15,7 +17,7 @@ class MenuObject{
     void setName(string newName){
       this -> name = newName;
     };
-    string getCommand(){return command;};
+    string getCommandsName(){return command;};
     void setCommand(string newCommand){
       this -> command = newCommand;
     };
@@ -28,6 +30,8 @@ class MenuObject{
     virtual MenuObject* getSubMenu() = 0;
     virtual void search(string commmandName) = 0;
     virtual vector<MenuObject*> getMenuObjects(){return vector<MenuObject*>();};
+    virtual Command* getCommand(){return NULL;};
+
 
 
 
