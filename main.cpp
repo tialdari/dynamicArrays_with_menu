@@ -21,6 +21,7 @@ using namespace std;
 
 int main()
 {
+  /*
     string testString = "internet";
     Menu* menu = new Menu("test_menu", "test", NULL);
 
@@ -30,7 +31,7 @@ int main()
   MenuObject* createArrays = new MenuCommand("createArrays", "create_a", menu, new CreateArrays(cTableManager));
 
   cout << createArrays -> menuObjectToString();
-/*
+*/
 
   IO io;
   string testString = io.readFromFile("test.txt");
@@ -46,12 +47,8 @@ int main()
 
   menu = menu -> readMenu(testCharArr, size, index, NULL, succ);
 
-  menu -> run();
+  cout << "menu's children: " << menu -> childrenToString();
 
-  vector<MenuObject*> new_(menu -> getMenuObjects());
-  vector<MenuObject*> new2_(new_[0] -> getMenuObjects());
-  cout << new2_[0] -> getName();
-*/
 
 
 //  cout << new_[1] -> getMenuObjects();

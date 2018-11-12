@@ -199,13 +199,6 @@ bool Menu::builtInCommands(string expression){
 
 
 
-  //write menu's name and commands
-  //write children
-  //for commands write name, command and setDescription
-  //for menu recursion
-
-
-
 string Menu::menuToString(){
 
   string menuString = "(";
@@ -223,9 +216,15 @@ string Menu::menuToString(){
 
 string Menu::childrenToString(){
 
+  string childrenString = "";
+  int comasNum = size - 1;
 
+  for(int i = 0; i < size; i++){
+    childrenString += vMenuObjects[i] -> menuObjectToString();
+    if(i < comasNum) childrenString += ",";
+  }
 
-  return "testChildrenString";
+  return childrenString;
 }
 
 
