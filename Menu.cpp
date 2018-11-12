@@ -88,7 +88,9 @@ void Menu::run()
     menuItemsList();
     string commandName = getCommandName();
     if(builtInCommands(commandName) == true){}
-    else if(commandName == "back") return;
+    else if(commandName == "back"){
+      return;
+    }
     else{
       commandIndex = getCommandIndex(commandName);
       executeCommand(commandIndex);
@@ -182,67 +184,39 @@ void Menu::search(string commandName){
 
 void Menu::search(string commandName){
 
-  cout << "searching in " << getName() << endl;
-  cout << "looking for command: " << commandName << endl;
-  MenuObject* menuObj;
-  string currentCommandName;
-
   for(int i = 0; i < size; i++){
-    menuObj = vMenuObjects[i];
-    currentCommandName = menuObj -> getCommandsName();
-    cout << currentCommandName;
-    if(commandName.compare(currentCommandName)) cout << " is what we're looking for";
-    cout << endl;
-    menuObj -> search(commandName);
-  }
 
+    if(vMenuObjects[i] -> getCommandsName() == commandName){
+      cout << printSubmenu(vMenuObjects[i]) + "(" << vMenuObjects[i] -> getCommandsName()
+           << ")" << endl;
+    }
+    vMenuObjects[i] -> search(commandName);
+  }
 }
 
 
 bool Menu::builtInCommands(string expression){
 
-  int stringSize = expression.length() + 1;
-  char* expressionArr = new char [stringSize];
-  strcpy (expressionArr, expression.c_str());
-
-  string basicCommand;
-  string commandName;
-  string currentStringSymbol;
-
-  int index = 0;
-  bool before = true;
-
-  for(int i = 0; i < stringSize; i++){
-    currentStringSymbol = string(1, expressionArr[i]);
-
-    if(currentStringSymbol == " "){
-      before = false;
-      i++;
-      currentStringSymbol = string(1, expressionArr[i]);
-    }
-    if(before) basicCommand += currentStringSymbol;
-    else commandName += currentStringSymbol;
-  }
-
-  cout << "basicCommand: " << basicCommand << endl;
-  cout << "commmandName: " << commandName << endl;
-
-  if(basicCommand == "search"){
-    cout << "running search command, looking for " << commandName << endl;
-
-    search(commandName);
-
-    return true;
-  }else if(basicCommand == "back" && commandName == "") return true;
 
     MenuObject* command;
-    string inputCommandName;
+    string commandName;
+
+    string searchString;
+    string otherString;
+
+    if(expression.length() >= 7){
+       searchString = expression.substr(0,6);
+       otherString = expression.substr(7);
+    }
 
     for(int i = 0; i < size; i++){
       command = vMenuObjects[i];
-      inputCommandName = command -> getCommandsName();
-      if(basicCommand == "help"){//&& commandName == inputCommandName
-        cout << "running help command" << endl;
+      commandName = command -> getCommandsName();
+
+      if(searchString == "search"){
+        search(otherString);
+        return true;
+      }else if(expression == "help " + commandName){
         command -> help();
         return true;
       }
@@ -345,10 +319,10 @@ Menu* Menu::readMenu(char* stringMenu, int size, int &startIndex, MenuObject* su
       startIndex--;
       startIndex = readWord(stringMenu, size, startIndex, name, pSucc);
       if(symbol == 'n'){
-        cout << "menu's name: " << name << endl;
+      //  cout << "menu's name: " << name << endl;
         menu -> setName(name);
       }else if(symbol == 'c'){
-        cout << "menu's command: " << name << endl;
+      //  cout << "menu's command: " << name << endl;
         menu -> setCommand(name);
       }
       if(pSucc == false){
@@ -419,17 +393,17 @@ MenuCommand* Menu::readCommand(char* stringMenu, int size, int &startIndex, Menu
                     switch(commandSymbol){
                       case 'n':
                         testCommand -> setName(result);
-                        cout << "command's name: " << testCommand -> getName() << endl;
+                      //  cout << "command's name: " << testCommand -> getName() << endl;
                       break;
 
                       case 'c':
                         testCommand -> setCommand(result);
-                        cout << "command's command: " << testCommand -> getCommandsName() << endl;
+                      //  cout << "command's command: " << testCommand -> getCommandsName() << endl;
                       break;
 
                       case 'd':
                         newtestCommand -> setDescription(result);
-                        testCommand -> help();
+                        //testCommand -> help();
                       break;
 
                       default: break;
@@ -449,7 +423,7 @@ MenuCommand* Menu::readCommand(char* stringMenu, int size, int &startIndex, Menu
       return testCommand;
     }
   }
-  cout << "end of command reading " << endl;
+//  cout << "end of command reading " << endl;
   return testCommand;
 }
 
@@ -466,13 +440,13 @@ MenuCommand* Menu::readCommand(char* stringMenu, int size, int &startIndex, Menu
       switch(symbol){
         case '[':
           newCommand = readCommand(stringMenu, size, startIndex, subMenu, pSucc);
-          cout << "command " << newCommand -> getName() << " read" << endl;
+        //  cout << "command " << newCommand -> getName() << " read" << endl;
           children.push_back(newCommand);
         break;
 
         case '(':
           newMenu = readMenu(stringMenu, size, startIndex, subMenu, pSucc);
-          cout << newMenu -> getName() ;//<< ", fst child name: " << endl;
+          //cout << newMenu -> getName() ;//<< ", fst child name: " << endl;
           //cout << newMenu -> getMenuObjects()[0] -> getName() << endl;
           children.push_back(newMenu);
         break;
@@ -513,9 +487,9 @@ void Menu::addCommands(vector<MenuObject*> inputVector){
 
   for(int i = 0; i < innerSize; i++){
     vMenuObjects.push_back(inputVector[i]);
-    cout << vMenuObjects[i] -> getName() << " added" << endl;
+  //  cout << vMenuObjects[i] -> getName() << " added" << endl;
   }
   size = innerSize;
-  cout << getName() << "\'s size: " << size << endl;
-  cout << "new commands added to " << getName() << endl;
+//  cout << getName() << "\'s size: " << size << endl;
+//  cout << "new commands added to " << getName() << endl;
 }

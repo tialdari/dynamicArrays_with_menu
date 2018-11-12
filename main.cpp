@@ -22,39 +22,6 @@ using namespace std;
 int main()
 {
 
-
-  /*
-  string testString = "create_a2";
-  string testString2 = "create_a";
-
-  cout << (testString != testString2);
-
-
-  string expression = "help ala";
-  int stringSize = expression.length() + 1;
-  char* expressionArr = new char [stringSize];
-  strcpy (expressionArr, expression.c_str());
-
-  string basicCommand;
-  string commandName;
-  string currentStringSymbol;
-
-  int index = 0;
-  bool before = true;
-
-  for(int i = 0; i < stringSize; i++){
-    currentStringSymbol = string(1, expressionArr[i]);
-
-    if(currentStringSymbol == " "){
-      before = false;
-      i++;
-      currentStringSymbol = string(1, expressionArr[i]);
-    }
-    if(before) basicCommand += currentStringSymbol;
-    else commandName += currentStringSymbol;
-  }
-
-
   IO io;
   string testString = io.readFromFile("test.txt");
 
@@ -68,15 +35,16 @@ int main()
   Menu* menu = new Menu("", "", NULL);
 
   menu = menu -> readMenu(testCharArr, size, index, NULL, succ);
+  menu -> run();
 
   string testString2 =  menu -> menuObjectToString();
 
   if(testString == testString2) cout << "readMenuObject method works correctly" << endl;
-*/
+
+  delete menu;
 
 
-
-
+/*
 
  CTableManager* cTableManager = new CTableManager();
 
@@ -125,7 +93,7 @@ int main()
 
   cout << "end of programme";
 
-
+*/
 
 
   return 0;
