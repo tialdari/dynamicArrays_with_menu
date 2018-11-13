@@ -21,10 +21,20 @@ using namespace std;
 
 int main()
 {
+/*
+  char c_childrenNum = 10;
+  int i_childrenNum = c_childrenNum;
+
+  for(int i = 0; i < i_childrenNum; i++){
+    cout << i << " ";
+    }
+*/
+
 
   IO io;
-  string testString = io.readFromFile("test.txt");
+  //string testString = io.readFromFile("test.txt");
 
+string testString = "('menu glowne','main';3,('Podmenu1','menu1';2,['Uruchom przegladarke','internet','otwiera przegladarke'],('Podmenu1','menu1';0)),('Podmenu2','menu2';2,['Test','test','pomoc dla test'],['Default command','defcom','pomoc dla test']),['Napisz „Ala ma kota”','ala','napis o Ali'])";
   int size = testString.length() + 1;
   char* testCharArr = new char [size];
   strcpy (testCharArr, testString.c_str());

@@ -55,6 +55,8 @@ class Menu: public MenuObject{
     void error(char missingSymbol, int index, char* text, int size);
     void addCommands(vector<MenuObject*> inputVector);
 
+    void printByLevels();
+
 
   private:
     int size;

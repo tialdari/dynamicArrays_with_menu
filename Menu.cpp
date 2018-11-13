@@ -293,8 +293,9 @@ Menu* Menu::readMenu(char* stringMenu, int size, int &startIndex, MenuObject* su
   const char menuSymbols[] = {'(', '\'', 'n', '\'', ',', '\'', 'c', '\'', ';'};
   int mSymbolsSize = 9;
 
+  char childrenNum = 0;
   const char endSymbols[] = {'(', '['};
-  int endSymbolsSize = 2;
+  int endSymbolsSize = 3;
 
   pSucc = false;
   bool namesRead = pSucc;
@@ -340,14 +341,31 @@ Menu* Menu::readMenu(char* stringMenu, int size, int &startIndex, MenuObject* su
     }
     namesRead = pSucc;
 }
+ inputSymbol = stringMenu[startIndex];
 
+  cout << "inputSymbol: " << inputSymbol << endl;
+  childrenNum = inputSymbol;
+
+  int i_childrenNum = childrenNum - 48;
+
+  cout << "i_childrenNum: " << i_childrenNum << endl;
+
+  //startIndex += 2;
   pSucc = false;
   inputSymbol = stringMenu[startIndex];
 
-
   for(int i = 0; i < endSymbolsSize; i++){
     if(inputSymbol == endSymbols[i]){
+      cout << "inputSymbol: " << inputSymbol << endl;
       vector<MenuObject*> accumVector(readChildren(stringMenu, size, startIndex, inputSymbol, menu, pSucc));
+      int accumVectorSize = accumVector.size();
+      cout << "accum vector size: " << accumVectorSize << endl;
+      /*
+      if(accumVectorSize != i_childrenNum){
+         cout << "wrong children num!" << endl;
+         return menu;
+      }
+      */
       menu -> addCommands(accumVector);
        if(pSucc == false){
          error(')', startIndex, stringMenu, size);
@@ -357,6 +375,7 @@ Menu* Menu::readMenu(char* stringMenu, int size, int &startIndex, MenuObject* su
     }
   }
 
+  inputSymbol = stringMenu[--startIndex];
   if(inputSymbol != ')'){
     error(symbol, startIndex, stringMenu, size);
   }else{
@@ -429,6 +448,8 @@ MenuCommand* Menu::readCommand(char* stringMenu, int size, int &startIndex, Menu
 
   vector<MenuObject*> Menu::readChildren(char* stringMenu, int size, int &startIndex, char symbol, MenuObject* subMenu, bool &pSucc){
 
+
+
   vector<MenuObject*> children;
   MenuCommand* newCommand;
   Menu* newMenu;
@@ -439,15 +460,16 @@ MenuCommand* Menu::readCommand(char* stringMenu, int size, int &startIndex, Menu
 
       switch(symbol){
         case '[':
+        cout << "read children input symbol: " << symbol << endl;
           newCommand = readCommand(stringMenu, size, startIndex, subMenu, pSucc);
-        //  cout << "command " << newCommand -> getName() << " read" << endl;
+          cout << "command " << newCommand -> getName() << " read" << endl;
           children.push_back(newCommand);
         break;
 
         case '(':
           newMenu = readMenu(stringMenu, size, startIndex, subMenu, pSucc);
           //cout << newMenu -> getName() ;//<< ", fst child name: " << endl;
-          //cout << newMenu -> getMenuObjects()[0] -> getName() << endl;
+          cout << newMenu -> getName() << endl;
           children.push_back(newMenu);
         break;
 
@@ -468,6 +490,7 @@ MenuCommand* Menu::readCommand(char* stringMenu, int size, int &startIndex, Menu
       symbol = stringMenu[startIndex];
   }
   pSucc = true;
+  cout << "size of children: " << children.size() << endl;
   return children;
 }
 
@@ -492,4 +515,15 @@ void Menu::addCommands(vector<MenuObject*> inputVector){
   size = innerSize;
 //  cout << getName() << "\'s size: " << size << endl;
 //  cout << "new commands added to " << getName() << endl;
+}
+
+void Menu::printByLevels(){
+
+  int queueSize = size;
+  vector<MenuObject*> queue(vMenuObjects);
+
+  for(int i = 0; i < queueSize; i++){
+    cout << queue[i] -> getName() << " ";
+  //queue.push_back(queue[i] -> )
+  }
 }
