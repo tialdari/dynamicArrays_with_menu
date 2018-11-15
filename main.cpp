@@ -38,7 +38,7 @@ int main()
   IO io;
   //string testString = io.readFromFile("test.txt");
 
-string testString = "('menu glowne','main';3,('Podmenu1a','menu1';2,['Uruchom przegladarke','internet','otwiera przegladarke'],('Podmenu1b','menu1';0)),('Podmenu2','menu2';2,['Test','test','pomoc dla test'],['Default command','defcom','pomoc dla test']),['Napisz „Ala ma kota”','ala','napis o Ali'])";
+string testString = "('menu glowne','main';2,('Podmenu1a','menu1';2,['Uruchom przegladarke','internet','otwiera przegladarke'],('Podmenu1b','menu1';0)),('Podmenu2','menu2';2,['Test','test','pomoc dla test'],['Default command','defcom','pomoc dla test']),['Napisz „Ala ma kota”','ala','napis o Ali'])";
 string testString2 = "('menu glowne','main';2,['testCommand','test_','testComDescrip'],['Uruchom przegladarke','internet','otwiera przegladarke'])";
 string testString3 = "('Podmenu2','menu2';2,['Test','test','pomoc dla test'],['Default command','defcom','pomoc dla test'])";
 string testString4 = "('menu glowne','main';('Podmenu1','menu1';['Uruchom przegladarke','internet','otwiera przegladarke'],('Podmenu1','menu1';)),('Podmenu2','menu2';['Test','test','pomoc dla test'],['Default command','defcom','pomoc dla test']),['Napisz „Ala ma kota”','ala','napis o Ali'])";
@@ -64,7 +64,7 @@ string testString4 = "('menu glowne','main';('Podmenu1','menu1';['Uruchom przegl
   Menu* menu = new Menu("", "", NULL);
 
   menu = menu -> readMenu(testCharArr, size, index, NULL, succ);
-  //menu -> run();
+  menu -> run();
 
    testString2 =  menu -> menuObjectToString();
 

@@ -376,6 +376,11 @@ inputSymbol = stringMenu[startIndex];
     if(inputSymbol == endSymbols[i]){
       vector<MenuObject*> accumVector(readChildren(stringMenu, size, startIndex, inputSymbol, menu, pSucc));
       menu -> addCommands(accumVector);
+      cout << "children size after childrenRead: " << accumVector.size();
+      if(i_childrenNum != accumVector.size()){
+        cout << "\nERROR: wrong children number!" << endl;
+        return menu;
+      }
        if(pSucc == false){
          error(')', startIndex, stringMenu, size);
          return menu;
