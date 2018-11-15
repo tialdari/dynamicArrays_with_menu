@@ -38,9 +38,11 @@ int main()
   IO io;
   //string testString = io.readFromFile("test.txt");
 
-string testString = "('menu glowne','main';3,('Podmenu1','menu1';2,['Uruchom przegladarke','internet','otwiera przegladarke'],('Podmenu1','menu1';0)),('Podmenu2','menu2';2,['Test','test','pomoc dla test'],['Default command','defcom','pomoc dla test']),['Napisz „Ala ma kota”','ala','napis o Ali'])";
+string testString = "('menu glowne','main';3,('Podmenu1a','menu1';2,['Uruchom przegladarke','internet','otwiera przegladarke'],('Podmenu1b','menu1';0)),('Podmenu2','menu2';2,['Test','test','pomoc dla test'],['Default command','defcom','pomoc dla test']),['Napisz „Ala ma kota”','ala','napis o Ali'])";
 string testString2 = "('menu glowne','main';2,['testCommand','test_','testComDescrip'],['Uruchom przegladarke','internet','otwiera przegladarke'])";
 string testString3 = "('Podmenu2','menu2';2,['Test','test','pomoc dla test'],['Default command','defcom','pomoc dla test'])";
+string testString4 = "('menu glowne','main';('Podmenu1','menu1';['Uruchom przegladarke','internet','otwiera przegladarke'],('Podmenu1','menu1';)),('Podmenu2','menu2';['Test','test','pomoc dla test'],['Default command','defcom','pomoc dla test']),['Napisz „Ala ma kota”','ala','napis o Ali'])";
+
 
 
   int size = testString.length() + 1;
@@ -51,9 +53,9 @@ string testString3 = "('Podmenu2','menu2';2,['Test','test','pomoc dla test'],['D
   char* testCharArr2 = new char [size2];
   strcpy (testCharArr2, testString2.c_str());
 
-  int size3 = testString3.length() + 1;
-  char* testCharArr3 = new char [size3];
-  strcpy (testCharArr3, testString3.c_str());
+  int size4 = testString4.length() + 1;
+  char* testCharArr4 = new char [size4];
+  strcpy (testCharArr4, testString4.c_str());
 
 
   int index = 0;
@@ -62,7 +64,7 @@ string testString3 = "('Podmenu2','menu2';2,['Test','test','pomoc dla test'],['D
   Menu* menu = new Menu("", "", NULL);
 
   menu = menu -> readMenu(testCharArr, size, index, NULL, succ);
-menu -> run();
+  //menu -> run();
 
    testString2 =  menu -> menuObjectToString();
 
