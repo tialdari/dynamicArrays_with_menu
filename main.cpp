@@ -22,22 +22,39 @@ using namespace std;
 int main()
 {
 /*
-  char c_childrenNum = 10;
+  char c_childrenNum = 0;
+  const char endSymbols[] = {c_childrenNum,'(', '['};
+  int endSymbolsSize = 3;
+
   int i_childrenNum = c_childrenNum;
+  cout << "in_childrenNum: " << i_childrenNum << endl;
 
-  for(int i = 0; i < i_childrenNum; i++){
-    cout << i << " ";
+  for(int i = 0; i < endSymbolsSize; i++){
+    cout << endSymbols[i] << ". ";
     }
+
+
 */
-
-
   IO io;
   //string testString = io.readFromFile("test.txt");
 
 string testString = "('menu glowne','main';3,('Podmenu1','menu1';2,['Uruchom przegladarke','internet','otwiera przegladarke'],('Podmenu1','menu1';0)),('Podmenu2','menu2';2,['Test','test','pomoc dla test'],['Default command','defcom','pomoc dla test']),['Napisz „Ala ma kota”','ala','napis o Ali'])";
+string testString2 = "('menu glowne','main';2,['testCommand','test_','testComDescrip'],['Uruchom przegladarke','internet','otwiera przegladarke'])";
+string testString3 = "('Podmenu2','menu2';2,['Test','test','pomoc dla test'],['Default command','defcom','pomoc dla test'])";
+
+
   int size = testString.length() + 1;
   char* testCharArr = new char [size];
   strcpy (testCharArr, testString.c_str());
+
+  int size2 = testString2.length() + 1;
+  char* testCharArr2 = new char [size2];
+  strcpy (testCharArr2, testString2.c_str());
+
+  int size3 = testString3.length() + 1;
+  char* testCharArr3 = new char [size3];
+  strcpy (testCharArr3, testString3.c_str());
+
 
   int index = 0;
   bool succ = true;
@@ -45,9 +62,9 @@ string testString = "('menu glowne','main';3,('Podmenu1','menu1';2,['Uruchom prz
   Menu* menu = new Menu("", "", NULL);
 
   menu = menu -> readMenu(testCharArr, size, index, NULL, succ);
-  menu -> run();
+menu -> run();
 
-  string testString2 =  menu -> menuObjectToString();
+   testString2 =  menu -> menuObjectToString();
 
   if(testString == testString2) cout << "readMenuObject method works correctly" << endl;
 
